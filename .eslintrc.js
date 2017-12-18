@@ -126,7 +126,7 @@ module.exports = {
       "import/newline-after-import": 0, // import 最后一个换行
       "no-plusplus": 0, // 暂时允许++
       // "no-return-await": 0, // 暂时允许在async中返回await
-      // "prefer-template": 0, // 字符串用模版，不要用相加
+      "prefer-template": 0, // 字符串用模版，不要用相加
       // "no-param-reassign": 0, // 参数重新赋值
 
   }
