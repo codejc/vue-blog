@@ -7,7 +7,7 @@ const port = "9090";
 const colors = require("colors");
 // createApi(app);
 const db = require("./db/db.js");
-
+require("./api/index.js");
 // 跨域设置
 app.all("*", (req, res, next) => {
     res.header("Access-Control-Allow-Credentials", true);
@@ -22,44 +22,6 @@ app.use(exp.static("public"));
 app.use(bodyParser.urlencoded({
     extended: true
 }));
-
-// // 设置连接数据库地址
-// mongoose.connect("mongodb://localhost:27017/data");
-// // 连接数据库
-// const db = mongoose.connection;
-// // 连接数据库的两种状态
-// // 失败
-// db.on("error", () => {
-//     console.log("连接数据库失败");
-// });
-// // 成功
-// db.once("open", () => {
-//     console.log("连接数据库成功");
-// });
-// // Schema 数据库模型，一种以文件形式存储的数据库模型骨架
-// const Schema = mongoose.Schema;
-
-// // 创建用户数据库模型，第一个参数是模型(表)的内容,第二个参数是模型(表)名字
-// const userSchema = Schema({
-//     account: String,
-//     password: Number
-// }, {
-//     collection: "Users"
-// });
-
-// // 创建评论模型
-// const commentSchema = Schema({
-//     articleID: String,
-//     comments: Array
-// }, {
-//     collection: "Comments"
-// });
-
-// // 根据创建的用户数据库模型创建用户模型(构造函数)
-// // User 由 schema 生成的模型，具有抽象属性和行为的数据库操作对
-// const User = mongoose.model("User", userSchema);
-// // const Article = mongoose.model("Article", articleSchema);
-// const ArticleComment = mongoose.model("Comments", commentSchema);
 
 // // 登录检验
 // app.post("/api/v1/login", (req, res) => {
@@ -115,19 +77,6 @@ app.use(bodyParser.urlencoded({
 //     });
 // });
 
-// // 获取评论列表
-// app.get("/comments/:id", (req, res) => {
-//     // User.findOne()
-//     ArticleComment.find({
-//         articleID: req.params.id
-//     }, (error, data) => {
-//         if (error) {
-//             res.send("获取首页数据失败");
-//         } else {
-//             res.send(data);
-//         }
-//     });
-// });
 // // 添加评论
 // app.post("/api/v1/addcomment", (req, res) => {
 //     // var comment = ArticleComment()
@@ -153,3 +102,4 @@ app.use(bodyParser.urlencoded({
 const server = app.listen(port, (req, res) => {
     console.log(`> server listening at localhost:${port}`.green);
 });
+

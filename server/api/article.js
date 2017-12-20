@@ -1,28 +1,14 @@
 const exp = require("express");
 const bodyParser = require("body-parser");
-const template = require("art-template");
-const mongoose = require("mongoose");
 const app = exp();
-// Schema 数据库模型，一种以文件形式存储的数据库模型骨架
-const Schema = mongoose.Schema;
 const Article = require("../db/schema").Article;
-// 创建文章模型
-const articleSchema = Schema({
-    title: String,
-    content: String,
-    account: String,
-    date: String
-}, {
-    collection: "Articles"
-});
-
 // 获取文章列表
-app.get("/", (req, res) => {
+app.post("/read/articleList", (req, res) => {
+    console.log("article");
     Article.find((error, data) => {
         if (error) {
             res.send("获取首页数据失败");
         } else {
-            console.log
             res.send(data);
         }
     });
@@ -79,3 +65,5 @@ app.post("/api/v1/remove/:id", (req, res) => {
         }
     });
 });
+
+module.exports = app;

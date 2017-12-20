@@ -49,10 +49,10 @@ module.exports = {
       {
         test: /\.js$/,
         loader: "babel-loader",
-        include: [resolve("src"), resolve("test")],
+        include: [resolve("src"), resolve("test"), resolve("server")],
         query: {
           plugins: ['transform-runtime'],
-          presets: ['stage-0']
+          presets: ['es2015', 'stage-0']
         }
       },
       {

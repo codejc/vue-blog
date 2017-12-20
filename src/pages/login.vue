@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import api from "@/assets/js/api.js";
 export default {
     name: "Login",
     data() {
@@ -15,6 +16,10 @@ export default {
             account: "",
             password: ""
         };
+    },
+    async created() {
+        const resp = await this.axios.post(api.GET_ARTICLE_LIST);
+        console.log(resp);
     }
 };
 </script>
