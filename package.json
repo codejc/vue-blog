@@ -9,7 +9,9 @@
     "start": "npm run dev",
     "lint": "eslint --ext .js,.vue src",
     "build": "node build/build.js",
-    "server": "node server/app.js"
+    "server": "node server/app.js",
+    "precommit": "npm run lint",
+    "prepush": "npm run lint"
   },
   "dependencies": {
     "art-template": "^3.0.3",
