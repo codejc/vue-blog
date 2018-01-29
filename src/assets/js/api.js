@@ -1,5 +1,5 @@
-const url = "http://localhost:9090";
+const host = "http://localhost:8888";
 
 export default {
-    GET_ARTICLE_LIST: `${url}/read/articleList`
+    GET_ARTICLE_LIST: `${host}/getArticleList`
 };
