@@ -25,7 +25,6 @@ Axios.interceptors.request.use((config) => {
     // console.log(typeof config.data, config.data);
     // // config.withCredentials = true;
     // config.headers["X-Requested-With"] = +new Date();
-    console.log(config);
     return config;
 }, (error) => {
     return Promise.reject(error);

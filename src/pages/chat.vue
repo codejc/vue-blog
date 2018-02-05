@@ -27,7 +27,6 @@ export default {
     },
     async created() {
         const resp = await this.axios.post(api.GET_ARTICLE_LIST);
-        console.log(resp);
     }
 };
 </script>
