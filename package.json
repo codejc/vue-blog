@@ -58,7 +58,10 @@
     "friendly-errors-webpack-plugin": "^1.6.1",
     "html-webpack-plugin": "^2.30.1",
     "husky": "^0.14.3",
+<<<<<<< HEAD
     "less-loader": "^4.0.5",
+=======
+>>>>>>> dd6e0ede8d2505eef846f9bfcc06054ae0a698a4
     "node-notifier": "^5.1.2",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
     "ora": "^1.2.0",
