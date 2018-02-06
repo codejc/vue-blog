@@ -30,6 +30,7 @@ const webpackConfig = merge(baseWebpackConfig, {
   plugins: [
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
+      // 定义环境变量
       "process.env": env
     }),
     new UglifyJsPlugin({
@@ -38,6 +39,7 @@ const webpackConfig = merge(baseWebpackConfig, {
           warnings: false
         }
       },
+      // 开启source map 方便跟踪错误提示
       sourceMap: config.build.productionSourceMap,
       parallel: true
     }),
