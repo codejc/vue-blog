@@ -1,7 +1,11 @@
 "use strict"
 require("./check-versions")()
 
+<<<<<<< HEAD
 const NODE_ENV = process.env.NODE_ENV;
+=======
+// process.env.NODE_ENV = "production"
+>>>>>>> 003bcd83b2d516bca8dc03723924389cf2d51a4a
 
 const tar = require("tar");
 const ora = require("ora")
@@ -11,6 +15,7 @@ const chalk = require("chalk")
 const webpack = require("webpack")
 const config = require("../config")
 const webpackConfig = require("./webpack.prod.conf")
+const NODE_ENV = process.env.NODE_ENV;
 
 // 跑一个本地服务器，去加载压缩打包后的静态资源
 if (!NODE_ENV) {
@@ -35,8 +40,30 @@ if (!NODE_ENV) {
 
 
 const spinner = ora("building for production...")
-spinner.start()
 
+// 跑一个本地服务器来运行打包完的静态资源
+if (!NODE_ENV) {
+  console.log(chalk.yellow("local asset is running...\n"));
+
+  const opn = require("opn");
+  const express = require("express");
+  const app = express();
+  const port = 3002;
+
+  app.use(express.static(config.build.assetsRoot));
+  app.listen(port, (err) => {
+      if (err) {
+          console.log(err);
+          return;
+      }
+
+      opn(`http://127.0.0.1:${port}`);
+      console.log(chalk.green(`> Listening at http://127.0.0.1:${port}`));
+  });
+  return;
+}
+
+spinner.start()
 rm(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), err => {
   if (err) throw err
   webpack(webpackConfig, (err, stats) => {
