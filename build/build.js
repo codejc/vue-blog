@@ -1,12 +1,6 @@
 "use strict"
 require("./check-versions")()
 
-<<<<<<< HEAD
-const NODE_ENV = process.env.NODE_ENV;
-=======
-// process.env.NODE_ENV = "production"
->>>>>>> 003bcd83b2d516bca8dc03723924389cf2d51a4a
-
 const tar = require("tar");
 const ora = require("ora")
 const rm = require("rimraf")

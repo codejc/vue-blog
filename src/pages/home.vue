@@ -66,6 +66,7 @@ export default {
                 pageSize: me.pageSize
             };
             const resp = await me.axios.post(me.$api.GET_ARTICLE_LIST, param);
+
             const load = () => {
                 if (!resp.data.length) me.isEnd = true;
                 resp.data.forEach(item => {
@@ -74,18 +75,22 @@ export default {
                 me.pageNo += 1;
                 me.loadingMore = false;
             };
+
             if (me.loadingMore) {
+                // 防止加载过快，至少0.5s，起到过渡效果
                 setTimeout(load, 500);
             } else {
                 load();
             }
         },
         loadMore() {
+            // 加载更多
             const me = this;
             if (me.loadingMore || me.isEnd) return;
             me.loadingMore = true;
             me.getArticleList();
         },
+        // 页面滚动监听，主要针对右侧面板滚动，以及瀑布流加载
         scrollHandler() {
             const me = this;
             const children = me.$refs.right.children;
@@ -130,11 +135,6 @@ export default {
     float: left;
     width: 320px;
     position: relative;
-    // top: 80px;
-    // clear: both;
-    // margin-left: 
-    // height: 100;
-    // transition: padding-top .1s;
 }
 
 .el-carousel {

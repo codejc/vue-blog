@@ -11,7 +11,7 @@
         <div class="footer">
             <div><i class="fa fa-user-circle" aria-hidden="true"></i> {{article.author}}</div>
             <div><i class="fa fa-eye" aria-hidden="true"></i> {{article.history}}</div>
-            <div class="comment"><i class="fa fa-comments" aria-hidden="true"></i>  {{article.comments}}</div>
+            <div class="comment"><i class="fa fa-comments" aria-hidden="true"></i>  {{article.comments.length}}</div>
             <div class="like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>  {{article.history}}</div>
             <el-button class="read-more" type="text">阅读全文 >></el-button>
         </div>
