@@ -17,6 +17,7 @@ export default {
 </script>
 
 <style lang="less">
+.tob-bar {
     .el-menu {
         position: fixed;
         top: 0;
@@ -53,4 +54,5 @@ export default {
         cursor: pointer;
         outline: none;
     }
+}
 </style>

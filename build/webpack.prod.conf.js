@@ -31,7 +31,9 @@ const webpackConfig = merge(baseWebpackConfig, {
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
       // 定义环境变量
-      "process.env": env
+      "process.env": env,
+      // 定义打包时的时间戳，用于缓存更新策略
+      TIME_STAMP: Date.now()
     }),
     new UglifyJsPlugin({
       uglifyOptions: {

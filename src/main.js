@@ -5,11 +5,12 @@ import Vue from "vue";
 import App from "./App";
 import router from "./router";
 import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
 import Axios from "axios";
 import VueAxios from "vue-axios";
 import Api from "@/assets/js/api.js";
+import "element-ui/lib/theme-chalk/index.css";
 import "@/assets/css/style.less";
+
 Vue.use(VueAxios, Axios);
 Vue.config.productionTip = false;
 
