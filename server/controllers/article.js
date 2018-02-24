@@ -7,8 +7,8 @@ module.exports = (router) => {
         // 分页
         const pageSize = req.body.pageSize;
         const pageNo = (req.body.pageNo - 1) * pageSize;
-
-        Article.get(pageNo, pageSize, (error, data) => {
+        const tag = req.body.tag;
+        Article.get({ pageSize, pageNo, tag }, (error, data) => {
             if (error) {
                 res.json({
                     responseCode: "1001",

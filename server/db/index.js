@@ -26,6 +26,6 @@ const model = {
     Comment: mongoose.model("Comment", schema.Comment),
     Tag: mongoose.model("Tag", schema.Tag)
 };
-// require("../util/datamaker")(model.Article, 6);
+require("../util/datamaker")(model.Article, 16);
 // 暴露出数据库模型
 module.exports = model;

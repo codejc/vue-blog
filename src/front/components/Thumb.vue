@@ -1,7 +1,7 @@
 <template>
     <div class="thumb-pane">
         <div class="header">
-            <h3 class="tag">{{article.tag}}</h3>
+            <h3 class="tag" @click="searchByTag">{{article.tag}}</h3>
             <h3 class="title">{{article.title}}</h3>
             <span class="date">{{article.updateTime}}</span>
         </div>
@@ -26,6 +26,11 @@ export default {
     },
     data() {
         return {};
+    },
+    methods: {
+        searchByTag() {
+            this.$router.push({ path: "search", query: { tag: this.article.tag } });
+        }
     }
 };
 </script>

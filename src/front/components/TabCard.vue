@@ -2,7 +2,7 @@
     <div class="card-pane">
         <h3 class="title">标签</h3>
         <div class="tags">
-            <div class="tag" v-for="(item, index) in tags" :style="{ backgroundColor: colors[index] }" :key="item" >
+            <div class="tag" @click="goSearch(item)" v-for="(item, index) in tags" :style="{ backgroundColor: colors[index] }" :key="item" >
                 {{item}}
             </div>
         </div>
@@ -41,6 +41,9 @@ export default {
                 const color = `rgb(${r},${g},${b})`;
                 me.colors.push(color);
             });
+        },
+        goSearch(item) {
+            this.$router.push({ path: "search", query: { tag: item } });
         }
     }
 };

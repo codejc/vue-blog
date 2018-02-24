@@ -1,66 +1,35 @@
 <template>
     <div>
-        <div class="home-main-wrap">
-            <div class="main-left">
-                <div class="block" v-if="pageName === 'home'">
-                    <el-carousel trigger="click" height="250px">
-                    <el-carousel-item v-for="item in 4" :key="item">
-                        <img class="recommend" src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=523041288,3888711063&fm=27&gp=0.jpg" alt="">
-                    </el-carousel-item>
-                    </el-carousel>
-                </div>
-                <h3 class="top-tip" v-else>标签：{{tag}}</h3>
-                <thumb v-for="item in articleList" :article="item" :key="item.id"></thumb>
-                <p class="loading" v-if="loadingMore"><i class="el-icon-loading"></i> 加载中...</p>
-                <!-- <p v-if="isEnd">到底部了</p> -->
-            </div>
-            <div class="main-right" ref="right" :style="{ top: rightPaddingTop }">
-                <tab-card></tab-card>
-                <hot-card></hot-card>
-                <link-card></link-card>
-            </div>
+        <div class="main-left">
+            <slot></slot>
+            <p class="loading" v-if="loadingMore"><i class="el-icon-loading"></i> 加载中...</p>
+            <!-- <p v-if="isEnd">到底部了</p> -->
         </div>
         <back-to-top></back-to-top>
     </div>
 </template>
 
 <script>
-import TabCard from "@/components/TabCard";
-import HotCard from "@/components/HotCard";
-import Thumb from "@/components/Thumb";
 import LinkCard from "@/components/LinkCard";
 import BackToTop from "@/components/BackToTop";
 
 export default {
-    name: "search",
+    name: "scrollView",
     components: {
-        TabCard,
-        HotCard,
         LinkCard,
-        Thumb,
         BackToTop
     },
     data() {
         return {
-            articleList: [],
             scrollEvent: null,
             layout: null,
-            rightPaddingTop: 0,
             loadingMore: false,
-            pageNo: 1,
-            pageSize: 10,
-            isEnd: false,
-            tag: this.$route.query.tag,
-            keyword: "",
-            pageName: this.$route.name
+            isEnd: false
         };
     },
     mounted() {
         const me = this;
         me.scrollHandler();
-    },
-    created() {
-        this.getArticleList();
     },
     methods: {
         async getArticleList() {
@@ -116,16 +85,11 @@ export default {
         }
     },
     watch: {
-        "$route": function (val) {
-            this.articleList = [];
+        "$route": function () {
             this.tag = this.$route.query.tag;
-            this.pageName = this.$route.name;
             this.pageNo = 1;
-            this.isEnd = false;
+            this.articleList = [];
             this.getArticleList();
-            this.$nextTick(() => {
-                this.layout.scrollTop = 0;
-            });
         }
     }
 };
