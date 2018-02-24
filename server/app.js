@@ -5,7 +5,7 @@ const app = exp();
 const colors = require("colors");  
 const PORT = process.env.PORT;
 const db = require("./db");
-const api = require("./api");
+const api = require("./controllers");
 const session = require("express-session");
 
 // 跨域设置

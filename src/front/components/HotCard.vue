@@ -2,7 +2,7 @@
     <div class="card-pane">
         <h3 class="title">最热</h3>
         <ul>
-            <li v-for="(item, index) in hotList" :key="index">
+            <li class="link" v-for="(item, index) in hotList" :key="index">
                 <span>{{item.title}}</span>
                 <span class="date">{{item.date}}</span>
             </li>
@@ -37,11 +37,15 @@ export default {
     ul {
         list-style: none;
         text-align: left;
-        li {
+        .link {
             padding: 5px 10px;
             font-size: 14px;
+            cursor: pointer;
             .date {
                 float: right;
+            }
+            &:hover {
+                opacity: .6;
             }
             border-bottom: 1px solid lightgrey;
             &:last-child {

@@ -1,5 +1,5 @@
 
-const Article = require("../db").Article;
+const Article = require("../models/article");
 
 module.exports = (router) => {
     // 获取文章列表
@@ -8,7 +8,7 @@ module.exports = (router) => {
         const pageSize = req.body.pageSize;
         const pageNo = (req.body.pageNo - 1) * pageSize;
 
-        Article.find().skip(pageNo).limit(pageSize).exec((error, data) => {
+        Article.get(pageNo, pageSize, (error, data) => {
             if (error) {
                 res.json({
                     responseCode: "1001",

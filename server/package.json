@@ -1,15 +1,15 @@
 {
-  "name": "mongodb-test",
+  "name": "vue-blog-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "server of vue-blog",
   "main": "server.js",
   "scripts": {
-    "server": " NODE_ENV=localhost PORT=8888 node server.js",
-    "server:prod": " NODE_ENV=production PORT=8888 supervisor node server.js",
+    "dev": " NODE_ENV=localhost PORT=8888 node app.js",
+    "prod": " NODE_ENV=production PORT=8888 pm2 start node app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "precommit": "echo \"tes\""
   },
-  "author": "",
+  "author": "Jincong Hong <764454663@qq.com>",
   "license": "ISC",
   "dependencies": {
     "art-template": "^3.0.3",

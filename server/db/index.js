@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const schema = require("./schema");
+
 // 设置连接数据库地址
 mongoose.connect("mongodb://localhost:27017/graduation");
 // 连接数据库
@@ -25,33 +26,6 @@ const model = {
     Comment: mongoose.model("Comment", schema.Comment),
     Tag: mongoose.model("Tag", schema.Tag)
 };
-
-const u = {
-    title: "测试文章2",
-    content: "Web前端技术由html、css和javascript三大部分构成，是一个庞大而复杂的技术体系，其复杂程度不低于任何一门后端语言。而我们在学习它的时候往往是先从某一个点切入，然后不断地接触和学习新的知识点，因此对于初学者很难理清楚整个体系的脉络结构。本文将对Web前端知识体系进行...",
-    author: "Jc",
-    createTime: "2017-5-12",
-    updateTime: "2018-1-12",
-    tag: "Vue",
-    history: "523",
-    comments: []
-}
-const tag = [
-    "Javascript",
-    "HTML5",
-    "CSS",
-    "node.js",
-    "Nginx",
-    "IE",
-    "webpack",
-    "Vue",
-    "ES6",
-    "npm"
-];
-// for (let i = 0; i<15; i++ ) {
-//     let index = Math.floor(Math.random() * 10);
-//     console.log(index);
-//     u.tag = tag[index];
-//     new model.Article(u).save();
-// }
+// require("../util/datamaker")(model.Article, 6);
+// 暴露出数据库模型
 module.exports = model;

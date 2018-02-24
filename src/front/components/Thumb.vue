@@ -3,7 +3,7 @@
         <div class="header">
             <h3 class="tag">{{article.tag}}</h3>
             <h3 class="title">{{article.title}}</h3>
-            <span class="date">{{article.date}}</span>
+            <span class="date">{{article.updateTime}}</span>
         </div>
         <div class="center">
             <p>{{article.content}}</p>
