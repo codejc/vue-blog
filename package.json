@@ -1,14 +1,17 @@
 {
-  "name": "graduation",
+  "name": "vue-blog",
   "version": "1.0.0",
   "description": "a blog for graduation",
   "author": "Jincong Hong <764454663@qq.com>",
   "private": true,
   "scripts": {
     "dev": "port=8080 webpack-dev-server --inline --colors --config build/webpack.dev.conf.js",
+    "dev:back": "port=8080 PROJECT_TYPE=back webpack-dev-server --inline --colors --config build/webpack.dev.conf.js",
+    "dev:front": "port=8080 PROJECT_TYPE=front webpack-dev-server --inline --colors --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "lint": "eslint --ext .js,.vue src",
-    "build": "NODE_ENV=production node build/build.js",
+    "build:back": "NODE_ENV=production PROJECT_TYPE=back node build/build.js",
+    "build:front": "NODE_ENV=production PROJECT_TYPE=front node build/build.js",
     "server": "node build/build.js",
     "precommit": "npm run lint"
   },

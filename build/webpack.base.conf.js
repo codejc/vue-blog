@@ -4,6 +4,7 @@ const utils = require("./utils")
 const config = require("../config")
 const vueLoaderConfig = require("./vue-loader.conf")
 
+var PROJECT_TYPE = config.dev.projectType;
 function resolve (dir) {
   return path.join(__dirname, "..", dir)
 }
@@ -12,7 +13,7 @@ const createLintingRule = () => ({
   test: /\.(js|vue)$/,
   loader: "eslint-loader",
   enforce: "pre",
-  include: [resolve("src"), resolve("test")],
+  include: [resolve(`src/${PROJECT_TYPE}`), resolve("test")],
   options: {
     formatter: require("eslint-friendly-formatter"),
     emitWarning: !config.dev.showEslintErrorsInOverlay
@@ -22,7 +23,7 @@ const createLintingRule = () => ({
 module.exports = {
   context: path.resolve(__dirname, "../"),
   entry: {
-    app: "./src/main.js"
+    app: `./src/${PROJECT_TYPE}/main.js`
   },
   output: {
     path: config.build.assetsRoot,
@@ -35,7 +36,7 @@ module.exports = {
     extensions: [".js", ".vue", ".json"],
     alias: {
       "vue$": "vue/dist/vue.esm.js",
-      "@": resolve("src"),
+      "@": resolve(`src/${PROJECT_TYPE}`),
     }
   },
   module: {
@@ -49,7 +50,7 @@ module.exports = {
       {
         test: /\.js$/,
         loader: "babel-loader",
-        include: [resolve("src"), resolve("test"), resolve("server")],
+        include: [resolve(`src/${PROJECT_TYPE}`), resolve("test"), resolve("server")],
         query: {
           plugins: ['transform-runtime'],
           presets: ['es2015', 'stage-0']

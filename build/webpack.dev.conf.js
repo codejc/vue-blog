@@ -10,7 +10,12 @@ const portfinder = require("portfinder")
 
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
-
+// const PROJECT_TYPE = process.env.PROJECT_TYPE
+// config.dev.projectType = process.env.PROJECT_TYPE;
+// console.log(config.projectType)
+// console.log(PROJECT_TYPE);
+// console.log(baseWebpackConfig.setProjectType(PROJECT_TYPE));
+// return;
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: true })
