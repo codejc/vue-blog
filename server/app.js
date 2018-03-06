@@ -9,17 +9,18 @@ const api = require("./controllers");
 const session = require("express-session");
 const mysql = require("mysql");
 // 跨域设置
-app.all("*", function (req, res, next) {
-    res.header("Access-Control-Allow-Credentials", true)
-    res.header("Access-Control-Allow-Origin", "*")
-    res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type")
-    res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS")
-    res.header("X-Powered-By", " 3.2.1")
-    res.header("Content-Type", "application/json;charset=utf-8")
-    next()
-})
+app.all("*", (req, res, next) => {
+    res.header("Access-Control-Allow-Credentials", true);
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
+    res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
+    res.header("X-Powered-By", " 3.2.1");
+    res.header("Content-Type", "application/json;charset=utf-8");
+    next();
+});
+
 // 需在跨域请求后执行，不然接收不到数据
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // 应用cookie进行，在登录时给用户一个sessionId。
@@ -49,12 +50,11 @@ app.all("/*", (req, res, next) => {
 // 调用api
 app.use(api);
 
-const server = app.listen(PORT, function (req, res) {
-    console.log(`sever run at localhost:${PORT}` .green);
-})
+const server = app.listen(PORT, (req, res) => {
+    console.log(`sever run at localhost:${PORT}`.green);
+});
 // var io = require("socket.io")(server);
 // io.on("connection", function (socket) {
-  //监听用户发布聊天内容
 //   socket.on("message", function (obj) {
 //     //向所有客户端广播发布的消息
 //     var mess = {
