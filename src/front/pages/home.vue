@@ -76,7 +76,6 @@ export default {
                 resp.data.forEach(item => {
                     me.articleList.push(item);
                 });
-                console.log(me.articleList);
                 me.pageNo += 1;
                 me.loadingMore = false;
             };
