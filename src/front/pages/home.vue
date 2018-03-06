@@ -71,12 +71,12 @@ export default {
                 tag: me.tag
             };
             const resp = await me.axios.post(me.$api.GET_ARTICLE_LIST, param);
-
             const load = () => {
                 if (!resp.data.length) me.isEnd = true;
                 resp.data.forEach(item => {
                     me.articleList.push(item);
                 });
+                console.log(me.articleList);
                 me.pageNo += 1;
                 me.loadingMore = false;
             };

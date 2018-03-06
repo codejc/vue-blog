@@ -1,17 +1,14 @@
-const Article = require("../db").Article;
+const db = require("../db");
 
-exports.get = ({ pageNo, pageSize, tag }, cb) => {
-    let result;
-    if (tag) {
-        result = Article.find({ tag: tag });
-    } else {
-        result = Article.find();
-    }
-    result.skip(pageNo).limit(pageSize).exec((error, data) => {
-        if (error) {
-            cb(error);
-        } else {
-            cb(null, data);
-        }
-    });
+exports.get = ({ tag, offset, pageSize, keyword }) => {
+    console.log(tag);
+    let sql = `
+        select a.*,count(c.id) as comments
+        from article a
+        left join comment c on (a.id = c.aid)
+        where a.tag like '%${tag || ''}%' and a.title like '%${keyword || ''}%'
+        group by a.id
+        limit ${offset},${pageSize}`;
+    return db.query(sql);
+    // console.log(db.query(sql))
 };

@@ -3,16 +3,16 @@
         <div class="header">
             <h3 class="tag" @click="searchByTag">{{article.tag}}</h3>
             <h3 class="title">{{article.title}}</h3>
-            <span class="date">{{article.updateTime}}</span>
+            <span class="date">{{article.updateTime | dateFormat}}</span>
         </div>
         <div class="center">
             <p>{{article.content}}</p>
         </div>
         <div class="footer">
             <div><i class="fa fa-user-circle" aria-hidden="true"></i> {{article.author}}</div>
-            <div><i class="fa fa-eye" aria-hidden="true"></i> {{article.history}}</div>
-            <div class="comment"><i class="fa fa-comments" aria-hidden="true"></i>  {{article.comments.length}}</div>
-            <div class="like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>  {{article.history}}</div>
+            <div><i class="fa fa-eye" aria-hidden="true"></i> {{article.views || 0}}</div>
+            <div class="comment"><i class="fa fa-comments" aria-hidden="true"> {{article.comments}}</i></div>
+            <div class="like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> {{article.likes || 0}}</div>
             <el-button class="read-more" type="text">阅读全文 >></el-button>
         </div>
     </div>
