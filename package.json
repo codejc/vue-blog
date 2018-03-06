@@ -9,7 +9,7 @@
     "dev:back": "port=8080 PROJECT_TYPE=back webpack-dev-server --inline --colors --config build/webpack.dev.conf.js",
     "dev:front": "port=8080 PROJECT_TYPE=front webpack-dev-server --inline --colors --config build/webpack.dev.conf.js",
     "start": "npm run dev",
-    "lint": "eslint --ext .js,.vue src server",
+    "lint": "eslint --ext .js,.vue src ,server",
     "build:back": "NODE_ENV=production PROJECT_TYPE=back node build/build.js",
     "build:front": "NODE_ENV=production PROJECT_TYPE=front node build/build.js",
     "server": "pm2 start server/app.js --name server --watch",
