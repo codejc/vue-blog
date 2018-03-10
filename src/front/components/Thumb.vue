@@ -2,7 +2,7 @@
     <div class="thumb-pane">
         <div class="header">
             <h3 class="tag" @click="searchByTag">{{article.tag}}</h3>
-            <h3 class="title">{{article.title}}</h3>
+            <h3 class="title" @click="viewArticle">{{article.title}}</h3>
             <span class="date">{{article.updateTime | dateFormat}}</span>
         </div>
         <div class="center">
@@ -13,7 +13,7 @@
             <div><i class="fa fa-eye" aria-hidden="true"></i> {{article.views || 0}}</div>
             <div class="comment"><i class="fa fa-comments" aria-hidden="true"> {{article.comments}}</i></div>
             <div class="like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> {{article.likes || 0}}</div>
-            <el-button class="read-more" type="text">阅读全文 >></el-button>
+            <el-button class="read-more" type="text" @click="viewArticle">阅读全文 >></el-button>
         </div>
     </div>
 </template>
@@ -30,6 +30,9 @@ export default {
     methods: {
         searchByTag() {
             this.$router.push({ path: "search", query: { tag: this.article.tag } });
+        },
+        viewArticle() {
+            this.$router.push({ name: "article", query: { id: this.article.id } });
         }
     }
 };
@@ -40,7 +43,7 @@ export default {
     .thumb-pane {
         width: 100%;
         background-color: white;
-        padding: 20px;
+        padding: 20px 20px 0 20px;
         text-align: left;
         > div:not(:last-child) {
             margin-bottom: 15px;
@@ -66,6 +69,7 @@ export default {
 
         overflow: hidden;
         color: #999;
+        line-height: 48px;
         > div {
             margin-right: 15px;
             float: left;

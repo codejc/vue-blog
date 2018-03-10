@@ -50,9 +50,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-    .card-pane {
-        width: 320px;
-    }
+
     .tags {
         display: flex;
         flex-wrap: wrap;

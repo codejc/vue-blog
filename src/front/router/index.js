@@ -2,7 +2,9 @@ import Vue from "vue";
 import Router from "vue-router";
 import Login from "@/pages/login.vue";
 import Home from "@/pages/home.vue";
+import Search from "@/pages/search.vue";
 import Chat from "@/pages/chat.vue";
+import Article from "@/pages/article.vue";
 Vue.use(Router);
 
 export default new Router({
@@ -16,12 +18,17 @@ export default new Router({
         {
             path: "/search",
             name: "search",
-            component: Home
+            component: Search
         },
         {
             path: "/chat",
             name: "chat",
             component: Chat
+        },
+        {
+            path: "/article",
+            name: "article",
+            component: Article
         }
     ]
 });

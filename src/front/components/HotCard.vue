@@ -31,9 +31,7 @@ export default {
 
 <style lang="less" scoped>
     @import "../assets/css/variable.less";
-    .card-pane {
-        width: 320px;
-    }
+
     ul {
         list-style: none;
         text-align: left;
