@@ -2,19 +2,20 @@
 import Axios from "axios";
 import api from "@/assets/js/api";
 import util from "@/assets/js/util";
-import region from "./region";
 import {
     LOGIN_SUCCESS,
     LOGIN_FAILURE,
     DO_LOGIN,
     DO_LOGOUT,
     GET_USERINFO,
-    SET_USERINFO
+    SET_USERINFO,
+    SWITCH_LOGIN_CARD
 } from "@/store/types";
 
 const loginModule = {
     state: {
         isLogin: false,
+        showLoginCard: false,
         userInfo: {}
     },
     mutations: {
@@ -22,36 +23,16 @@ const loginModule = {
             state.isLogin = true;
         },
         [LOGIN_FAILURE](state) {
-            state.isLogin = false;
             state.userInfo = {};
+        },
+        [SWITCH_LOGIN_CARD](state) {
+            state.showLoginCard = !state.showLoginCard;
         },
         [SET_USERINFO](state, user) {
             state.userInfo = user;
         }
     },
     actions: {
-        async [DO_LOGIN]({ dispatch, commit, state }, param) {
-            const resp = await Axios.post(api.LOGIN, param, { msg: "努力登录中..." });
-
-            if (resp.success) {
-                // commit(LOGIN_SUCCESS);
-                dispatch(GET_USERINFO);
-                return resp.data;
-            }
-
-            return resp;
-        },
-        async [DO_LOGOUT]({ commit }, param) {
-            const resp = await Axios.post(api.LOGOUT, {}, {
-                withCredentials: true
-            });
-            // 退出清空用户所属区域
-            region.state.userRegionList = [];
-            region.state.regionList = [];
-            commit(LOGIN_FAILURE);
-            commit(SET_USERINFO, {});
-            return resp;
-        },
         async [GET_USERINFO]({ commit, state }) {
             try {
                 if (!state.isLogin) {

@@ -44,7 +44,11 @@ router.post("/register", async (req, res) => {
                 expiresIn: 60 * 60 * 24 // 授权时效24小时
             });
 
-            res.json(success({ ...data[0], token }, "登录成功"));
+            res.json(success({
+                loginId: data[0].loginId,
+                userName: data[0].userName,
+                token
+            }, "登录成功"));
         }
     } catch (e) {
         res.json(error());

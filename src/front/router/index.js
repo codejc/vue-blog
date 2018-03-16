@@ -5,9 +5,10 @@ import Home from "@/pages/home.vue";
 import Search from "@/pages/search.vue";
 import Chat from "@/pages/chat.vue";
 import Article from "@/pages/article.vue";
+import { GET_USERINFO } from "@/store/types";
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
     mode: "history",
     routes: [
         {
@@ -32,3 +33,5 @@ export default new Router({
         }
     ]
 });
+
+export default router;

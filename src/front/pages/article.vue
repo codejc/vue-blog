@@ -38,7 +38,7 @@
                 </li>
             </ul>
             <h3><i class="fa fa-user-circle" aria-hidden="true"></i> 发表评论</h3>
-            <div class="form-comment">
+            <div class="form-comment" v-if="isLogin">
                 <el-input
                     type="textarea"
                     class="textarea"
@@ -49,6 +49,7 @@
                 </el-input>
                 <el-button class="submit" type="primary" @click="submitComment">提交评论</el-button>
             </div>
+            <div class="no-login" v-else>请先<el-button type="text" @click="showLogin">登录</el-button></div>
         </div>
 
         <el-dialog
@@ -93,13 +94,19 @@
                 </li>
             </ul>
         </el-dialog>
-        
+
+        <login-card ref="loginCard"></login-card>
     </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
+import LoginCard from "@/components/LoginCard";
 
 export default {
+    components: {
+        LoginCard
+    },
     data() {
         return {
             aid: null,
@@ -111,10 +118,6 @@ export default {
             dialogVisible: false,
             conversationVisable: false,
             commentGroup: [],
-            userInfo: {
-                loginId: 1,
-                userName: "jc"
-            },
             replyItem: null,
             replyContent: "",
             conversationId: null
@@ -124,6 +127,10 @@ export default {
         this.aid = this.$route.query.id;
         this.getArticle();
     },
+    computed: mapState({
+        userInfo: state => state.user.userInfo,
+        isLogin: state => state.user.isLogin
+    }),
     methods: {
         async doLike() {
             const me = this;
@@ -142,6 +149,9 @@ export default {
             me.loading = false;
             me.article = res.data;
         },
+        showLogin() {
+            this.$refs.loginCard.open();
+        },
         handleDialogClose() {
             const me = this;
             me.replyContent = "";
@@ -154,6 +164,7 @@ export default {
         },
         async submitReploy() {
             const me = this;
+            if (!me.isLogin) return me.showLogin();
             const params = {
                 ...me.userInfo,
                 ...me.replyItem,
@@ -169,6 +180,7 @@ export default {
         },
         async submitComment() {
             const me = this;
+            if (!me.isLogin) return me.showLogin();
             const params = {
                 ...me.userInfo,
                 articleId: +me.$route.query.id,
@@ -186,7 +198,6 @@ export default {
             if (!res.success) return me.$message.error("查看对话失败");
             me.commentGroup = res.data;
             me.conversationVisable = true;
-            console.log(res);
         }
     }
 };
@@ -325,5 +336,10 @@ export default {
             float: right;
             margin: 0 20px 0 20px;
         }
+    }
+
+    .no-login {
+        text-align: center;
+        margin-top: 20px;
     }
 </style>

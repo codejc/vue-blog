@@ -11,7 +11,7 @@ import Axios from "axios";
 import VueAxios from "vue-axios";
 import Api from "@/assets/js/api.js";
 import storage from "@/assets/js/cache";
-
+import store from "@/store";
 Vue.use(VueAxios, Axios);
 Vue.config.productionTip = false;
 
@@ -41,14 +41,15 @@ Vue.filter("dateFormat", (value, format = "yyyy-MM-dd hh:mm:ss") => {
     return fmt;
 });
 
+// 拦截器，请求头添加token
 Axios.interceptors.request.use((config) => {
-    console.log(config);
     config.headers["X-token"] = storage.getStorage("token");
     return config;
 }, (error) => {
     return Promise.reject(error);
 });
 
+// 处理接口返回信息
 Axios.interceptors.response.use((response) => {
     return response.data;
 }, (error) => {
@@ -61,6 +62,7 @@ Vue.prototype.$api = Api;
 new Vue({
     el: "#app",
     router,
+    store,
     template: "<App/>",
     components: { App }
 });

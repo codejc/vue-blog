@@ -18,7 +18,7 @@ import TopBar from "@/components/TopBar";
 import TabCard from "@/components/TabCard";
 import HotCard from "@/components/HotCard";
 import LinkCard from "@/components/LinkCard";
-
+import { GET_USERINFO } from "@/store/types";
 export default {
     name: "app",
     components: {
@@ -36,9 +36,9 @@ export default {
             if (left < 820) return;
             this.$refs.fixCard.style.left = left + "px";
         },
+        // 获取用户信息，保存在store，每次进入网页都会获取一次用户信息和登录状态
         async getUserInfo() {
-            const res = await this.axios.post(this.$api.GET_USERINFO);
-            console.log(res);
+            this.$store.dispatch(GET_USERINFO);
         }
     },
     created() {

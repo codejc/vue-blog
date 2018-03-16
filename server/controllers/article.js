@@ -6,7 +6,7 @@ import express from "express";
 import verify from "../middlewares/verify";
 const router = express.Router();
 // 获取文章列表
-router.post("/getArticleList", verify, async (req, res) => {
+router.post("/getArticleList", async (req, res) => {
     // 分页
     const { pageSize, tag, keyword, pageNo } = req.body;
     const offset = (pageNo - 1) * pageSize;

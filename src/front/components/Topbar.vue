@@ -5,20 +5,27 @@
             <el-menu-item index="/">首页</el-menu-item>
             <el-menu-item index="/chat">文章分类</el-menu-item>
             <el-menu-item index="/chat">在线交流</el-menu-item>
-            <div class="login" @click="doLogin">登录</div>
+            <div class="login" @click="showLogin" v-if="!isLogin">登录</div>
+            <el-dropdown trigger="click" v-else>
+                <div class="favicon">{{userInfo.userName.slice(0, 1).toUpperCase()}}</div>
+                <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item>退出登录</el-dropdown-item>
+                </el-dropdown-menu>
+            </el-dropdown>
             <div class="input-with-select">
                 <el-input placeholder="请输入搜索关键字" v-model="keyword"></el-input>
                 <i class="fa fa-search" aria-hidden="true" @click="search"></i>
             </div>
         </el-menu>
-        <el-dialog
-            :title="isLogin ? '登录' : '注册'"
+        <login-card ref="loginCard"></login-card>
+        <!-- <el-dialog
+            :title="atLogin ? '登录' : '注册'"
             :visible.sync="dialogVisible"
             :modal-append-to-body="false"
             :close="handleDialogClose"
             width="320px">
             <el-form :model="form">
-                <div v-if="isLogin">
+                <div v-if="atLogin">
                     <el-form-item>
                         <el-input placeholder="请输入账号" v-model="form.loginId"></el-input>
                     </el-form-item>
@@ -52,58 +59,34 @@
                     </el-row>
                 </div>
             </el-form>
-        </el-dialog>
+        </el-dialog> -->
     </div>
 </template>
 
 <script>
-import storage from "../assets/js/cache";
+import { mapState } from "vuex";
+import LoginCard from "./LoginCard";
 
 export default {
+    components: {
+        LoginCard
+    },
     data() {
         return {
-            form: {},
-            keyword: "",
-            dialogVisible: false,
-            isLogin: true,
-            loading: false
+            keyword: ""
         };
     },
+    computed: mapState({
+        userInfo: state => state.user.userInfo,
+        isLogin: state => state.user.isLogin
+    }),
     methods: {
         search() {
             const me = this;
             me.$router.push({ path: "search", query: { keyword: me.keyword } });
         },
-        doLogin() {
-            this.dialogVisible = true;
-        },
-        dialogChange() {
-            this.isLogin = !this.isLogin;
-            this.form = {};
-        },
-        async login() {
-            const me = this;
-            me.loading = true;
-            const res = await me.axios.post(me.$api.LOGIN, me.form);
-            me.loading = false;
-            if (!res.success) return me.$message.error(res.responseMessage);
-            me.$message.success("登录成功");
-            storage.setStorage("token", res.data.token);
-            me.dialogVisible = false;
-        },
-        async register() {
-            const me = this;
-            me.loading = true;
-            const res = await me.axios.post(me.$api.REGISTER, me.form);
-            me.loading = false;
-            if (!res.success) return me.$message.error(res.responseMessage);
-            me.$message.success("注册成功，快尝试登录吧");
-            me.handleDialogClose();
-        },
-        handleDialogClose() {
-            const me = this;
-            me.isLogin = true;
-            me.form = {};
+        showLogin() {
+            this.$refs.loginCard.open();
         }
     }
 };
@@ -118,12 +101,6 @@ export default {
     left: 0;
     background-color: #324157;
     z-index: 3;
-    .el-dialog__header {
-        text-align: left;
-    }
-    .btn-login {
-        width: 100%;
-    }
     .el-menu {
         width: 1140px;
         margin: 0 auto;
@@ -190,8 +167,22 @@ export default {
             font-size: 18px;
         }
     }
-    .operate-group {
-        margin-top: 15px;
+
+    .el-dropdown {
+        float: right;
     }
-}
+    .favicon {
+        border-radius: 50%;
+        color: white;
+        background-color: lightgrey;
+        width: 40px;
+        height: 40px;
+        float: right;
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 40px;
+        margin-top: 10px;
+        outline: none;
+    }
+}   
 </style>
