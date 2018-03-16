@@ -9,15 +9,13 @@ import {
     DO_LOGIN,
     DO_LOGOUT,
     GET_USERINFO,
-    SET_USERINFO,
-    SET_MENU_PERMISSION
+    SET_USERINFO
 } from "@/store/types";
 
 const loginModule = {
     state: {
         isLogin: false,
-        userInfo: {},
-        permission: {}
+        userInfo: {}
     },
     mutations: {
         [LOGIN_SUCCESS](state) {
@@ -26,10 +24,9 @@ const loginModule = {
         [LOGIN_FAILURE](state) {
             state.isLogin = false;
             state.userInfo = {};
-            state.permission = {};
         },
-        [SET_USERINFO](state, account) {
-            state.userInfo = account;
+        [SET_USERINFO](state, user) {
+            state.userInfo = user;
         }
     },
     actions: {
@@ -56,38 +53,17 @@ const loginModule = {
             return resp;
         },
         async [GET_USERINFO]({ commit, state }) {
-            let respData;
-            const userPermission = {};
-
             try {
                 if (!state.isLogin) {
-                    const resp = await Axios.post(api.USERINFO, { dropMessage: true }, { dropLoading: true });
+                    const resp = await Axios.post(api.GET_USERINFO);
 
-                    respData = resp.data;
+                    const { loginId, userName } = resp.data;
 
-                    if (!respData) return state.userInfo;
+                    if (!resp.data) return state.userInfo;
 
-                    commit(SET_USERINFO, {
-                        loginId: respData.loginId,
-                        userName: respData.userName,
-                        email: respData.email,
-                        phone: respData.phone
-                    });
-
-                    if (state.userInfo.loginId) commit(LOGIN_SUCCESS);
-
-                    respData.permissionList.forEach((item, index) => {
-                        if (!userPermission[item.menuCode]) {
-                            userPermission[item.menuCode] = { ...item };
-                            userPermission[item.menuCode].permission = [];
-                        }
-
-                        userPermission[item.menuCode].permission.push(item.permission);
-                    });
-
-                    state.permission = userPermission;
-
-                    commit(SET_MENU_PERMISSION, userPermission);
+                    commit(SET_USERINFO, { loginId, userName });
+                    // 如果获取到的用户信息不为空，置登录状态为真
+                    if (loginId) commit(LOGIN_SUCCESS);
                 }
             } catch (e) {
                 // console.log(e);

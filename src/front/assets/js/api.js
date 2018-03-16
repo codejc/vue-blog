@@ -5,5 +5,8 @@ export default {
     GET_ARTICLE: `${host}/getArticleById`,
     DO_LIKE: `${host}/doLikeById`,
     LOGIN: `${host}/login`,
-    REGISTER: `${host}/register`
+    GET_USERINFO: `${host}/getUserInfo`,
+    REGISTER: `${host}/register`,
+    POST_COMMENT: `${host}/comment`,
+    GET_COMMENT_GROUP: `${host}/getCommentGroup`
 };

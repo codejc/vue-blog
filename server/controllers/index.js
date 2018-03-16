@@ -1,11 +1,12 @@
-// const exp = require('express')
-// const app = exp();
-const express = require("express");
+import express from "express";
+import article from "./article";
+import user from "./user";
+import comment from "./comment";
 const router = express.Router();
 
-require("./article")(router);
-require("./user")(router);
+router.use(article);
+router.use(user);
+router.use(comment);
 
-
-module.exports = router;
+export default router;
 

@@ -84,7 +84,7 @@ module.exports = {
       "linebreak-style": 0,
       "promise/always-return": 0, // promise 必须返回值
       "promise/no-callback-in-promise": 0, // promise中不用调用callback
-
+      "import/no-named-as-default-member": 0,
       // 必须尽快酌情打开
       // "vue/require-v-for-key": 0,
       // "no-shadow": 0,
@@ -128,6 +128,5 @@ module.exports = {
       // "no-return-await": 0, // 暂时允许在async中返回await
       "prefer-template": 0, // 字符串用模版，不要用相加
       "no-param-reassign": 0, // 参数重新赋值
-
   }
 }

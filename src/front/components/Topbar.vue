@@ -57,6 +57,8 @@
 </template>
 
 <script>
+import storage from "../assets/js/cache";
+
 export default {
     data() {
         return {
@@ -86,6 +88,7 @@ export default {
             me.loading = false;
             if (!res.success) return me.$message.error(res.responseMessage);
             me.$message.success("登录成功");
+            storage.setStorage("token", res.data.token);
             me.dialogVisible = false;
         },
         async register() {

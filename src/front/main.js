@@ -10,6 +10,8 @@ import "@/theme/index.css";
 import Axios from "axios";
 import VueAxios from "vue-axios";
 import Api from "@/assets/js/api.js";
+import storage from "@/assets/js/cache";
+
 Vue.use(VueAxios, Axios);
 Vue.config.productionTip = false;
 
@@ -40,14 +42,8 @@ Vue.filter("dateFormat", (value, format = "yyyy-MM-dd hh:mm:ss") => {
 });
 
 Axios.interceptors.request.use((config) => {
-    // if (typeof config.data === "string") {
-    //     config.url += `?${config.data}`;
-    //     config.data = {};
-    // }
-    // // config.data = config.data.toObject();
-    // console.log(typeof config.data, config.data);
-    // // config.withCredentials = true;
-    // config.headers["X-Requested-With"] = +new Date();
+    console.log(config);
+    config.headers["X-token"] = storage.getStorage("token");
     return config;
 }, (error) => {
     return Promise.reject(error);

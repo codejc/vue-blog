@@ -1,55 +1,55 @@
-const exp = require("express");
-const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
+import exp from "express";
+import bodyParser from "body-parser";
+import mongoose from "mongoose";
+import colors from "colors";
+import db from "./db";
+import api from "./controllers";
+import session from "express-session";
+import mysql from "mysql";
+import config from "./config";
+import jwt from "jsonwebtoken"; // 使用jwt签名
+import { error, success } from "./util/toJson";
+
 const app = exp();
-const colors = require("colors");
 const PORT = "8888";
-const db = require("./db");
-const api = require("./controllers");
-const session = require("express-session");
-const mysql = require("mysql");
 // 跨域设置
 app.all("*", (req, res, next) => {
     res.header("Access-Control-Allow-Credentials", true);
     res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, X-token");
     res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
     res.header("X-Powered-By", " 3.2.1");
     res.header("Content-Type", "application/json;charset=utf-8");
     next();
 });
 
+// 设置全局参数 superSecret
+app.set("jwtSecret", config.jwtSecret);
+
 // 需在跨域请求后执行，不然接收不到数据
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// 应用cookie进行，在登录时给用户一个sessionId。
-app.use(session({
-    secret: "secret",
-    resave: true,
-    saveUninitialized: false,
-    cookie: {
-        maxAge: 1000 * 60 * 10
-    }
-}));
 
-app.all("/*", (req, res, next) => {
-    // console.log(req.body);
-    // 没登录，则返回 1008码
-    // if (!req.session.user) {
-    //     res.json({
-    //         data: {},
-    //         status:{
-    //             code: 1008,
-    //             msg: "用户未登录"
-    //         }
-    //     });
-    // }
-    next();
-});
+// 匹配除了登录页和注册页外的路由，进行路由拦截，token鉴权。
+// app.all(/^back\/.*?(?<!login)(?<!register)$/, (req, res, next) => {
+//     const token = req.headers["x-token"];
+//     if (token) {
+//         jwt.verify(token, app.get("jwtSecret"), (err, decoded) => {
+//             if (err) return res.json(error("用户未登录", "1008"));
+//             next();
+//         });
+//     } else {
+//         return res.json(error("无效token", "1008"));
+//     }
+// });
 // 调用api
 app.use(api);
 
+const processErrorHandler = (e) => {
+    console.log(e);
+};
+process.on("unhandledRejection", processErrorHandler);
 const server = app.listen(PORT, (req, res) => {
     console.log(`sever run at localhost:${PORT}`.green);
 });

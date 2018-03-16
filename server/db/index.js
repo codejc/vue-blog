@@ -1,20 +1,15 @@
-const mysql = require("mysql");
-const db = {};
+import mysql from "mysql";
+import config from "../config";
 
-const pool = mysql.createPool({
-  host     : "localhost",
-  user     : "root",
-  password : "hjincong",
-  database : "vue-blog"
-});
+const pool = mysql.createPool(config.db);
 
-//查询
-db.query = (sql, callback) => {
+// 查询
+const query = (sql, callback) => {
     return new Promise((resolve, reject) => {
         pool.getConnection((err, connection) => {
             // Use the connection
             // console.log(params)
-            connection.query(sql,(error, results, fields) => {
+            connection.query(sql, (error, results, fields) => {
                 // And done with the connection.
                 // Handle error after the release.
                 connection.release();
@@ -24,7 +19,6 @@ db.query = (sql, callback) => {
             });
         });
     });
-    
-}
+};
 
-module.exports = db;  
+export default query;

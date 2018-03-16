@@ -35,7 +35,14 @@ export default {
             const left = (clientWidth - 1140) / 2 + 820;
             if (left < 820) return;
             this.$refs.fixCard.style.left = left + "px";
+        },
+        async getUserInfo() {
+            const res = await this.axios.post(this.$api.GET_USERINFO);
+            console.log(res);
         }
+    },
+    created() {
+        this.getUserInfo();
     },
     mounted() {
         const me = this;

@@ -1,7 +1,7 @@
-const error = (msg) => {
+const error = (msg, code) => {
     return {
-        responseCode: "1001",
-        responseMessage: msg || "数据库查询失败！",
+        code: code || "1001",
+        message: msg || "数据库查询失败！",
         success: false
     };
 };
@@ -9,8 +9,8 @@ const error = (msg) => {
 const success = (resp, msg) => {
     if (typeof resp === "string") msg = resp;
     return {
-        responseCode: "1000",
-        responseMessage: msg || "处理成功",
+        code: "1000",
+        message: msg || "处理成功",
         data: resp || {},
         success: true
     };
