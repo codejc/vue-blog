@@ -12,11 +12,19 @@ import VueAxios from "vue-axios";
 import Api from "@/assets/js/api.js";
 import storage from "@/assets/js/cache";
 import store from "@/store";
+import hljs from "highlight.js";
+import "highlight.js/styles/atelier-heath-light.css"; // 样式文件
+
 Vue.use(VueAxios, Axios);
 Vue.config.productionTip = false;
 
 Vue.use(ElementUI);
 
+// 自定义指令
+Vue.directive("hljs", el => {
+    const blocks = el.querySelectorAll("pre code");
+    Array.prototype.forEach.call(blocks, hljs.highlightBlock);
+});
 // Filter
 Vue.filter("dateFormat", (value, format = "yyyy-MM-dd hh:mm:ss") => {
     if (!value) return;

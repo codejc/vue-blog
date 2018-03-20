@@ -11,6 +11,7 @@ import {
     SET_USERINFO,
     SWITCH_LOGIN_CARD
 } from "@/store/types";
+import { Loading } from "element-ui";
 
 const loginModule = {
     state: {
@@ -22,11 +23,9 @@ const loginModule = {
         [LOGIN_SUCCESS](state) {
             state.isLogin = true;
         },
-        [LOGIN_FAILURE](state) {
+        [DO_LOGOUT](state) {
             state.userInfo = {};
-        },
-        [SWITCH_LOGIN_CARD](state) {
-            state.showLoginCard = !state.showLoginCard;
+            state.isLogin = false;
         },
         [SET_USERINFO](state, user) {
             state.userInfo = user;
@@ -36,8 +35,9 @@ const loginModule = {
         async [GET_USERINFO]({ commit, state }) {
             try {
                 if (!state.isLogin) {
+                    const loadingInstance = Loading.service({ fullscreen: true });
                     const resp = await Axios.post(api.GET_USERINFO);
-
+                    loadingInstance.close();
                     const { loginId, userName } = resp.data;
 
                     if (!resp.data) return state.userInfo;

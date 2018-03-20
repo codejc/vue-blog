@@ -43,6 +43,22 @@ export default {
         `;
 
         return query(sql);
+    },
+
+    // 删除文章
+    delArticle: (id) => {
+        const sql = `delete from article where id = ${id}`;
+        return query(sql);
+    },
+
+    // 编辑文章
+    updateArticle: ({ id, title, content, tag, author, updateTime }) => {
+        const sql = `
+            update article 
+            set title = '${title}', content = '${content}', tag = '${tag}',
+            author = '${author}', updateTime = now()
+            where id = ${id}`;
+        return query(sql);
     }
 };
 

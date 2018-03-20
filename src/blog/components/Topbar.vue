@@ -9,7 +9,7 @@
             <el-dropdown trigger="click" v-else>
                 <div class="favicon">{{userInfo.userName.slice(0, 1).toUpperCase()}}</div>
                 <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item>退出登录</el-dropdown-item>
+                    <el-dropdown-item @click="logout">退出登录</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
             <div class="input-with-select">
@@ -18,53 +18,13 @@
             </div>
         </el-menu>
         <login-card ref="loginCard"></login-card>
-        <!-- <el-dialog
-            :title="atLogin ? '登录' : '注册'"
-            :visible.sync="dialogVisible"
-            :modal-append-to-body="false"
-            :close="handleDialogClose"
-            width="320px">
-            <el-form :model="form">
-                <div v-if="atLogin">
-                    <el-form-item>
-                        <el-input placeholder="请输入账号" v-model="form.loginId"></el-input>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-input placeholder="请输入密码" type="password" v-model="form.password"></el-input>
-                    </el-form-item>
-                    <el-button class="btn-login" type="primary" :loading="loading" @click="login">登录</el-button>
-                    <el-row class="operate-group" type="flex" justify="space-between">
-                        <div>没有账号？ <el-button type="text" @click="dialogChange">注册</el-button></div>
-                        <el-button type="text">忘记密码</el-button>
-                    </el-row>
-                </div>
-                <div v-else>
-                    <el-form-item>
-                        <el-input placeholder="请输入昵称" v-model="form.userName"></el-input>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-input placeholder="请输入账号" v-model="form.loginId"></el-input>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-input placeholder="请输入密码" type="password" v-model="form.password"></el-input>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-input placeholder="请确认密码" type="password" v-model="form.pwdConfirm"></el-input>
-                    </el-form-item>
-                    <el-button class="btn-login" type="primary" :loading="loading" @click="register">注册</el-button>
-                    <el-row class="operate-group" type="flex" justify="center">
-                        <div>
-                            <el-button type="text" @click="dialogChange">已有账号登录</el-button>
-                        </div>
-                    </el-row>
-                </div>
-            </el-form>
-        </el-dialog> -->
     </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
+import { DO_LOGOUT } from "@/store/types";
+import storage from "@/assets/js/cache";
 import LoginCard from "./LoginCard";
 
 export default {
@@ -87,6 +47,10 @@ export default {
         },
         showLogin() {
             this.$refs.loginCard.open();
+        },
+        logout() {
+            this.$store.commit(DO_LOGOUT);
+            storage.removeStorage("token");
         }
     }
 };

@@ -9,9 +9,13 @@ import mysql from "mysql";
 import config from "./config";
 import jwt from "jsonwebtoken"; // 使用jwt签名
 import { error, success } from "./util/toJson";
-
+import path from "path";
 const app = exp();
 const PORT = "8888";
+
+// 设置静态资源目录
+app.use(exp.static(path.join(__dirname, "assets")));
+
 // 跨域设置
 app.all("*", (req, res, next) => {
     res.header("Access-Control-Allow-Credentials", true);
@@ -51,6 +55,7 @@ const processErrorHandler = (e) => {
 };
 process.on("unhandledRejection", processErrorHandler);
 const server = app.listen(PORT, (req, res) => {
+    console.clear();
     console.log(`sever run at localhost:${PORT}`.green);
 });
 // var io = require("socket.io")(server);

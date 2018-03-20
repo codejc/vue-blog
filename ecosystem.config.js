@@ -13,7 +13,8 @@ module.exports = {
       watch: true,
       ignore_watch: [  // 从监控目录中排除
         "node_modules", 
-        "src"
+        "src",
+        "server/assets"
       ],
       // 改变pm2执行环境，使用babel-node执行，兼容es6
       exec_interpreter: "babel-node",

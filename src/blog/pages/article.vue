@@ -1,5 +1,5 @@
 <template>
-    <div class="article" v-if="!loading">
+    <div class="page-article" v-if="!loading">
         <div class="main">
             <header>
                 <h3 class="title">{{article.title}}</h3>
@@ -11,7 +11,7 @@
                     <div><i class="fa fa-clock-o" aria-hidden="true"></i>{{article.updateTime}}</div>
                 </div>
             </header>
-            <div class="content" v-html="article.content"></div>
+            <div class="content" v-hljs v-html="article.content"></div>
             <footer>
                 <el-button type="danger" :disabled="liked" @click="doLike"><i class="fa fa-heart-o" aria-hidden="true"></i> 点赞({{article.likes}})</el-button>
             </footer>
@@ -203,143 +203,152 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
-    .article {
+<style lang="less">
+
+    .page-article {
         width: 800px;
         text-align: left;
-    }
-
-    .main {
-        width: 100%;
-        background-color: white;
-        header {
-            padding: 20px 20px 15px 20px;
-            border-bottom: 1px solid rgb(247, 247, 247);
+        img {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
         }
-
-        footer {
-            width: 100%;
-            margin-top: 50px;
-            padding: 30px;
-            border-top: 1px solid rgb(247, 247, 247);
-            text-align: center;
-        }
-    }
-
-    .content {
-        padding: 20px;
-    }
-
-    .comment {
-        background-color: white;
-        margin-top: 20px;
-        overflow: hidden;
-        padding-bottom: 20px;
-        h3 {
-            padding: 10px 20px;
-            background-color: rgb(247, 247, 247);
-            color: rgb(103, 102, 102)
-        }
-    }
-
-    .comment-list {
-        min-height: 100px;
-        padding: 20px;
-        list-style: none;
         li {
-            padding-bottom: 15px;
-            border-bottom: 1px dashed rgb(247, 247, 247);
-            &:not(:first-child) {
-                margin-top: 20px;
-            }
+            margin-left: 35px;
         }
-        header {
-            line-height: 30px;
-            .favicon {
-                width: 30px;
-                height: 30px;
-                background-color: lightgray;
-                margin-right: 10px;
-                float: left;
+        .main {
+            width: 100%;
+            background-color: white;
+            header {
+                padding: 20px 20px 15px 20px;
+                border-bottom: 1px solid rgb(247, 247, 247);
             }
-            .author {
-                float: left;
-            }
-            .nearly-date {
-                float: right;
-                color: #888888;
-            }
-            .reply-author {
-                color: #888888;
-                padding: 0 5px;
-                font-weight: 500;
-            }
-        }
-        main {
-            // margin-top: 10px;
-            padding-top: 10px;
-            clear: both;
-        }
-        footer {
-            color: rgb(61, 97, 155);
-            // margin-left: 40px;
-            padding-top: 10px;
-            >span:hover {
-                border-bottom: 1px solid rgb(61, 97, 155);
-                cursor: pointer;
-            }
-        }
-        .reply-pane {
-            margin-left: 40px;
-            margin-top: 15px;
-        }
-    }
 
-    .title {
-        font-size: 24px;
-        padding: 0;
-    }
-
-    .fa {
-        margin-right: 3px;
-    }
-
-    .info-group {
-        margin-top: 10px;
-        padding-bottom: 20px;
-        > div {
-            float: left;
-            margin-right: 15px;
+            footer {
+                width: 100%;
+                margin-top: 50px;
+                padding: 30px;
+                border-top: 1px solid rgb(247, 247, 247);
+                text-align: center;
+            }
         }
-    }
 
-    .like {
-        width: 100px;
-        height: 40px;
-        line-height: 40px;
-        text-align: center;
-        // border-radius: 4px;
-        margin: 0 auto;
-        background-color: rgb(247, 111, 106);
-        color: white;
-        font-size: 14px;
-        user-select: none;
-    }
-
-    .form-comment {
-        overflow: hidden;
-        .textarea {
-            // margin: 20px;
+        .content {
             padding: 20px;
         }
-        .submit {
-            float: right;
-            margin: 0 20px 0 20px;
+
+        .comment {
+            background-color: white;
+            margin-top: 20px;
+            overflow: hidden;
+            padding-bottom: 20px;
+            h3 {
+                padding: 10px 20px;
+                background-color: rgb(247, 247, 247);
+                color: rgb(103, 102, 102)
+            }
+        }
+
+        .comment-list {
+            min-height: 100px;
+            padding: 20px;
+            list-style: none;
+            li {
+                padding-bottom: 15px;
+                border-bottom: 1px dashed rgb(247, 247, 247);
+                &:not(:first-child) {
+                    margin-top: 20px;
+                }
+            }
+            header {
+                line-height: 30px;
+                .favicon {
+                    width: 30px;
+                    height: 30px;
+                    background-color: lightgray;
+                    margin-right: 10px;
+                    float: left;
+                }
+                .author {
+                    float: left;
+                }
+                .nearly-date {
+                    float: right;
+                    color: #888888;
+                }
+                .reply-author {
+                    color: #888888;
+                    padding: 0 5px;
+                    font-weight: 500;
+                }
+            }
+            main {
+                // margin-top: 10px;
+                padding-top: 10px;
+                clear: both;
+            }
+            footer {
+                color: rgb(61, 97, 155);
+                // margin-left: 40px;
+                padding-top: 10px;
+                >span:hover {
+                    border-bottom: 1px solid rgb(61, 97, 155);
+                    cursor: pointer;
+                }
+            }
+            .reply-pane {
+                margin-left: 40px;
+                margin-top: 15px;
+            }
+        }
+
+        .title {
+            font-size: 24px;
+            padding: 0;
+        }
+
+        .fa {
+            margin-right: 3px;
+        }
+
+        .info-group {
+            margin-top: 10px;
+            padding-bottom: 20px;
+            > div {
+                float: left;
+                margin-right: 15px;
+            }
+        }
+
+        .like {
+            width: 100px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            // border-radius: 4px;
+            margin: 0 auto;
+            background-color: rgb(247, 111, 106);
+            color: white;
+            font-size: 14px;
+            user-select: none;
+        }
+
+        .form-comment {
+            overflow: hidden;
+            .textarea {
+                // margin: 20px;
+                padding: 20px;
+            }
+            .submit {
+                float: right;
+                margin: 0 20px 0 20px;
+            }
+        }
+
+        .no-login {
+            text-align: center;
+            margin-top: 20px;
         }
     }
-
-    .no-login {
-        text-align: center;
-        margin-top: 20px;
-    }
+    
 </style>

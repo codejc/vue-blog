@@ -26,7 +26,8 @@ export default {
     },
     getCommentsLength: (id) => {
         const sql = `
-            select max(id) as length from comment`;
+            select max(id) as length
+            from comment`;
 
         return query(sql);
     },

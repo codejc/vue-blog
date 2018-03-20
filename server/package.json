@@ -12,16 +12,13 @@
   "author": "Jincong Hong <764454663@qq.com>",
   "license": "ISC",
   "dependencies": {
-    "art-template": "^3.0.3",
     "async": "^2.6.0",
-    "async-validator": "^1.8.1",
     "body-parser": "^1.17.2",
     "colors": "^1.1.2",
     "concurrently": "^3.5.1",
+    "marked": "^0.3.17",
     "express": "^4.15.3",
-    "express-session": "^1.15.6",
     "jsonwebtoken": "^8.2.0",
-    "mongoose": "^4.11.0",
     "mysql": "^2.15.0",
     "socket.io": "^1.7.4",
     "socket.io-client": "^1.7.4"

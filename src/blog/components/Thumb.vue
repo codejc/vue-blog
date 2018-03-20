@@ -19,6 +19,7 @@
 </template>
 
 <script>
+
 export default {
     props: {
         article: Object,
@@ -38,53 +39,70 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 @import "../assets/css/variable.less";
     .thumb-pane {
         width: 100%;
         background-color: white;
         padding: 20px 20px 0 20px;
         text-align: left;
+        margin-bottom: 15px;
         > div:not(:last-child) {
             margin-bottom: 15px;
         }
-        margin-bottom: 15px;
-    }
 
-    .title {
-        display: inline-block;
-        padding-left: 10px;
-        line-height: 25px;
-        cursor: pointer;
-        &:hover {
-            color: black;
-        }
-    }
-    .date {
-        float: right;
-        color: #999;
-        line-height: 25px;
-    }
-    .footer {
-
-        overflow: hidden;
-        color: #999;
-        line-height: 48px;
-        > div {
-            margin-right: 15px;
-            float: left;
-        }
-        .like,
-        .comment {
-            cursor: pointer;
-            &:hover {
-                color: @global-text-color;
+        // 防止列表li设为inline-block时序列号消失。使用计数器
+        ol,
+        ul {
+            display: inline-block;
+            counter-reset: LIST-ITEMS;
+            li {
+                display: inline-block;
+                margin-left: 10px;
+                list-style-type: decimal;
+                list-style-position: inside;
+            }
+            li:before {
+            content: counter( LIST-ITEMS ) ".";
+                counter-increment: LIST-ITEMS;
             }
         }
-    }
-    .read-more {
-        margin-left: 10px;
-        float: right;
-        line-height: 22px;
+
+        .title {
+            display: inline-block;
+            padding-left: 10px;
+            line-height: 25px;
+            cursor: pointer;
+            &:hover {
+                color: black;
+            }
+        }
+        .date {
+            float: right;
+            color: #999;
+            line-height: 25px;
+        }
+        .footer {
+
+            overflow: hidden;
+            color: #999;
+            line-height: 48px;
+            > div {
+                margin-right: 15px;
+                float: left;
+            }
+            .like,
+            .comment {
+                cursor: pointer;
+                &:hover {
+                    color: @global-text-color;
+                }
+            }
+        }
+        .read-more {
+            margin-left: 10px;
+            float: right;
+            line-height: 22px;
+        }
     }
 </style>

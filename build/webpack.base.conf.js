@@ -4,7 +4,8 @@ const utils = require("./utils")
 const config = require("../config")
 const vueLoaderConfig = require("./vue-loader.conf")
 
-var PROJECT_TYPE = config.dev.projectType;
+const PROJECT_TYPE = process.env.PROJECT_TYPE;
+// var PROJECT_TYPE = config.dev.projectType;
 function resolve (dir) {
   return path.join(__dirname, "..", dir)
 }

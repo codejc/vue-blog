@@ -10,7 +10,8 @@ const portfinder = require("portfinder")
 
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
-// const PROJECT_TYPE = process.env.PROJECT_TYPE
+// console.log(process.env.PROJECT_TYPE);
+const PROJECT_TYPE = process.env.PROJECT_TYPE
 // config.dev.projectType = process.env.PROJECT_TYPE;
 // console.log(config.projectType)
 // console.log(PROJECT_TYPE);
@@ -53,6 +54,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     new HtmlWebpackPlugin({
       filename: "index.html",
       template: "index.html",
+      title: PROJECT_TYPE,
       inject: true
     }),
   ]
