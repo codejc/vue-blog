@@ -9,4 +9,4 @@ COPY / /home/service
 RUN npm install
 
 EXPOSE 8888
-CMD [ "pm2 start ecosystem.config.js" ]
+CMD [ "npm run server" ]
