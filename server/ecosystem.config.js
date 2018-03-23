@@ -18,7 +18,7 @@ module.exports = {
         "server/assets"
       ],
       // 改变pm2执行环境，使用babel-node执行，兼容es6
-      exec_interpreter: "babel-node",
+      exec_interpreter: "node",
       log_date_format: "YYYY-MM-DD",
       env: {
         COMMON_VARIABLE: "true"

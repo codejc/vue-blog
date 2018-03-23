@@ -12,7 +12,8 @@
     "lint": "eslint --ext .js,.vue src",
     "build:blog": "NODE_ENV=production PROJECT_TYPE=blog node build/build.js",
     "build:admin": "NODE_ENV=production PROJECT_TYPE=admin node build/build.js",
-    "server": "pm2 start ./server/ecosystem.config.js",
+    "build:server": "NODE_ENV=production node build/build.js",
+    "server": "pm2 start ecosystem.config.js",
     "precommit": "npm run lint",
     "test": "node build/build.js"
   },
