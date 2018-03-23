@@ -4,10 +4,7 @@
   "description": "server of vue-blog",
   "main": "server.js",
   "scripts": {
-    "dev": " NODE_ENV=localhost PORT=8888 node app.js",
-    "prod": " NODE_ENV=production PORT=8888 pm2 start node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "precommit": "echo \"tes\""
+    "server": "pm2 start ecosystem.config.js"
   },
   "author": "Jincong Hong <764454663@qq.com>",
   "license": "ISC",
@@ -27,6 +24,7 @@
     "babel-core": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-register": "^6.26.0",
-    "husky": "^0.14.3"
+    "husky": "^0.14.3",
+    "pm2": "^2.10.1"    
   }
 }
