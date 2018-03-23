@@ -19,6 +19,8 @@ import TabCard from "@/components/TabCard";
 import HotCard from "@/components/HotCard";
 import LinkCard from "@/components/LinkCard";
 import { GET_USERINFO } from "@/store/types";
+import { mapState } from "vuex";
+
 export default {
     name: "app",
     components: {
@@ -27,6 +29,9 @@ export default {
         HotCard,
         LinkCard
     },
+    computed: mapState({
+        userInfo: state => state.user.userInfo
+    }),
     methods: {
         // 页面宽度变化时，右边的悬浮卡响应left改变
         handleResize() {
@@ -38,11 +43,18 @@ export default {
         },
         // 获取用户信息，保存在store，每次进入网页都会获取一次用户信息和登录状态
         async getUserInfo() {
-            this.$store.dispatch(GET_USERINFO);
+            await this.$store.dispatch(GET_USERINFO);
+        },
+        // 数据埋点，提交访问记录
+        buryPoint() {
+            const me = this;
+            const { userName, loginId } = me.userInfo;
+            me.axios.post(me.$api.BURY_POINT, { userName, loginId });
         }
     },
-    created() {
-        this.getUserInfo();
+    async created() {
+        await this.getUserInfo();
+        this.buryPoint();
     },
     mounted() {
         const me = this;

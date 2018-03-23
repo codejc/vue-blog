@@ -90,6 +90,6 @@ export default {
 
 <style lang="less" scoped>
     .md-editor {
-        height: 350px;
+        height: 500px;
     }
 </style>

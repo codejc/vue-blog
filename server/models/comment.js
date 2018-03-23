@@ -24,6 +24,14 @@ export default {
 
         return query(sql);
     },
+
+    getCommentsByDate: (date) => {
+        const sql = `
+            select d.* from comment d
+            where d.time like '%${date}%'`;
+        return query(sql);
+    },
+
     getCommentsLength: (id) => {
         const sql = `
             select max(id) as length
@@ -31,6 +39,7 @@ export default {
 
         return query(sql);
     },
+
     getGropByRoot: (root) => {
         const sql = `
             select c.id, c.content, c.time, c.author_id as authorId, c.author_name as authorName, c.reply_name as replyName, c.reply_id as replyId

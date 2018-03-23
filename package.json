@@ -12,13 +12,14 @@
     "lint": "eslint --ext .js,.vue src",
     "build:blog": "NODE_ENV=production PROJECT_TYPE=blog node build/build.js",
     "build:admin": "NODE_ENV=production PROJECT_TYPE=admin node build/build.js",
-    "server": "pm2 start ecosystem.config.js & pm2 monit",
+    "server": "pm2 start ecosystem.config.js",
     "precommit": "npm run lint"
   },
   "dependencies": {
     "axios": "^0.16.0",
     "babel-polyfill": "^6.26.0",
     "colors": "^1.1.2",
+    "echarts": "^4.0.4",
     "element-ui": "^2.2.1",
     "highlight.js": "^9.12.0",
     "less": "^2.7.3",

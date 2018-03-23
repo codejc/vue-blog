@@ -1,7 +1,7 @@
 <template>
     <div class="sideMenu">
         <el-menu
-            default-active="article"
+            :default-active="activeIndex"
             :unique-opened="true"
             class="el-menu-vertical-demo"
             :collapse="isCollapse"
@@ -17,7 +17,7 @@
                 <i v-if="!isCollapse" class="el-icon-caret-left"></i>
                 <i v-else class="el-icon-caret-right"></i>
             </div>
-            <el-menu-item index="article">
+            <el-menu-item index="/article">
                 <i class="fa fa-th-large" aria-hidden="true"></i>
                 <span slot="title">博文管理</span>
             </el-menu-item>
@@ -27,18 +27,18 @@
                     <span slot="title">版块管理</span>
                 </template>
                 <el-menu-item-group>
-                    <el-menu-item index="2-1">
+                    <el-menu-item index="/tag">
                         <i class="fa fa-tags" aria-hidden="true"></i>标签
                      </el-menu-item>
-                    <el-menu-item index="2-2">
+                    <!-- <el-menu-item index="hot">
                         <i class="fa fa-fire" aria-hidden="true"></i>热门
-                    </el-menu-item>
-                    <el-menu-item index="2-3">
+                    </el-menu-item> -->
+                    <el-menu-item index="/link">
                         <i class="fa fa-link" aria-hidden="true"></i>外链
                     </el-menu-item>
                 </el-menu-item-group>
             </el-submenu> 
-            <el-menu-item index="data">
+            <el-menu-item index="/data">
                 <i class="fa fa-pie-chart" aria-hidden="true"></i>
                 <span slot="title">数据中心</span>
             </el-menu-item>
@@ -62,7 +62,10 @@ export default {
         };
     },
     computed: mapState({
-        userInfo: state => state.user.userInfo
+        userInfo: state => state.user.userInfo,
+        activeIndex() {
+            return this.$route.name;
+        }
     }),
     methods: {
         logout() {
@@ -87,6 +90,9 @@ export default {
         width: 200px;
         /* min-height: 400px; */
         height: 100%;
+    }
+    .el-menu-item {
+        outline: none;
     }
     .btn-collapse {
         text-align: center;

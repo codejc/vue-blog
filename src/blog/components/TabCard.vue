@@ -2,8 +2,8 @@
     <div class="card-pane">
         <h3 class="title">标签</h3>
         <div class="tags">
-            <div class="tag" @click="goSearch(item)" v-for="(item, index) in tags" :style="{ backgroundColor: colors[index] }" :key="item" >
-                {{item}}
+            <div class="tag" @click="goSearch(item)" v-for="(item, index) in tags" :style="{ backgroundColor: colors[index] }" :key="index" >
+                {{item.label}}
             </div>
         </div>
     </div>
@@ -29,7 +29,7 @@ export default {
         };
     },
     created() {
-        this.createColor();
+        this.getTags();
     },
     methods: {
         createColor() {
@@ -42,8 +42,15 @@ export default {
                 me.colors.push(color);
             });
         },
+        async getTags() {
+            const me = this;
+            const { success, data } = await me.axios.post(me.$api.GET_TAGS);
+            if (!success) return;
+            me.tags = data;
+            me.createColor();
+        },
         goSearch(item) {
-            this.$router.push({ path: "search", query: { tag: item } });
+            this.$router.push({ path: "search", query: { tag: item.label } });
         }
     }
 };

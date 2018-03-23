@@ -1,8 +1,12 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Login from "@/pages/login.vue";
-import ArticleManage from "@/pages/article.vue";
-import ArticleDetail from "@/pages/article_detail.vue";
+import Login from "@/pages/login";
+import ArticleManage from "@/pages/article";
+import ArticleDetail from "@/pages/article_detail";
+import Hot from "@/pages/hot";
+import Tag from "@/pages/tag";
+import Link from "@/pages/link";
+import Data from "@/pages/data";
 import { GET_USERINFO } from "@/store/types";
 Vue.use(Router);
 
@@ -28,6 +32,26 @@ const router = new Router({
             path: "/login",
             name: "login",
             component: Login
+        },
+        {
+            path: "/hot",
+            name: "hot",
+            component: Hot
+        },
+        {
+            path: "/tag",
+            name: "tag",
+            component: Tag
+        },
+        {
+            path: "/link",
+            name: "link",
+            component: Link
+        },
+        {
+            path: "/data",
+            name: "data",
+            component: Data
         }
     ]
 });

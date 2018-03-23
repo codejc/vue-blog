@@ -36,15 +36,6 @@ export default {
         return query(sql);
     },
 
-    // 根据id更新点赞数
-    updateLikesById: (id, val) => {
-        const sql = `
-            update article set likes = ${val} where id = ${id}
-        `;
-
-        return query(sql);
-    },
-
     // 删除文章
     delArticle: (id) => {
         const sql = `delete from article where id = ${id}`;
@@ -57,6 +48,23 @@ export default {
             update article 
             set title = '${title}', content = '${content}', tag = '${tag}',
             author = '${author}', updateTime = now()
+            where id = ${id}`;
+        return query(sql);
+    },
+
+    // 根据id更新访问数
+    updateViewsById: (id, val) => {
+        const sql = `
+            update article set views = ${val} where id = ${id}`;
+
+        return query(sql);
+    },
+
+    // 更改发布状态
+    updateStatus: ({ id, publish }) => {
+        const sql = `
+            update article 
+            set publish = '${publish}'
             where id = ${id}`;
         return query(sql);
     }

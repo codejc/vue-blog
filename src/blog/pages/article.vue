@@ -213,7 +213,8 @@ export default {
             margin: 0 auto;
             max-width: 100%;
         }
-        li {
+        
+        .content li {
             margin-left: 35px;
         }
         .main {

@@ -10,12 +10,22 @@
                 <el-table :data="articles" :height="tableHeight">
                     <el-table-column prop="title" label="标题" show-overflow-tooltip></el-table-column>
                     <el-table-column prop="author" label="作者"></el-table-column>
-                    <el-table-column prop="tag" label="标签"></el-table-column>
+                    <el-table-column prop="tag" label="标签" show-overflow-tooltip></el-table-column>
                     <el-table-column prop="createTime" label="创建日期" show-overflow-tooltip></el-table-column>
                     <el-table-column prop="updateTime" label="最后修改日期" show-overflow-tooltip></el-table-column>
                     <el-table-column prop="views" label="访问数"></el-table-column>
                     <el-table-column prop="comments" label="评论数"></el-table-column>
                     <el-table-column prop="likes" label="点赞数"></el-table-column>
+                    <el-table-column label="发布状态">
+                        <template slot-scope="scope">
+                            <el-switch
+                                @change="handleStatusChange(scope.row)"
+                                v-model="scope.row.publish"
+                                :inactive-value="0"
+                                :active-value="1">
+                            </el-switch>
+                        </template>
+                    </el-table-column>
                     <el-table-column fixed="right" label="操作" width="120">
                         <template slot-scope="scope">
                             <el-button type="text" @click="goDetail(scope.row.id)"> 编辑</el-button>
@@ -93,6 +103,15 @@ export default {
 
         goDetail(id) {
             this.$router.push({ name: "articleDetail", params: { id } });
+        },
+
+        async handleStatusChange(row) {
+            const me = this;
+            const { id, publish } = row;
+            const cnStatus = !publish ? "下架" : "发布";
+            const res = await me.axios.post(me.$api.PUBLISH_ARTICLE, { id, publish });
+            if (!res.success) return me.$message.error(`${cnStatus}失败`);
+            me.$message.success(`${cnStatus}成功`);
         }
     }
 };
