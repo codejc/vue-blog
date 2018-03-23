@@ -9,7 +9,7 @@ module.exports = {
     // First application
     {
       name      : "server",
-      script    : "./server/app.js",
+      script    : "./app.js",
       node_args: ["--harmony", "--inspect"], // 开启node 在chrome下的调试
       watch: true,
       ignore_watch: [  // 从监控目录中排除
