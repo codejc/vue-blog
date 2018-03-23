@@ -7,6 +7,10 @@ const pool = mysql.createPool(config.db);
 const query = (sql, callback) => {
     return new Promise((resolve, reject) => {
         pool.getConnection((err, connection) => {
+            if (err) {
+                console.log("数据库连接失败");
+                return reject(err);
+            }
             // Use the connection
             // console.log(params)
             connection.query(sql, (error, results, fields) => {
