@@ -1,10 +1,8 @@
 import exp from "express";
 import bodyParser from "body-parser";
-import mongoose from "mongoose";
 import colors from "colors";
 import db from "./db";
 import api from "./controllers";
-import session from "express-session";
 import mysql from "mysql";
 import config from "./config";
 import jwt from "jsonwebtoken"; // 使用jwt签名
