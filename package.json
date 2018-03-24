@@ -12,8 +12,7 @@
     "lint": "eslint --ext .js,.vue src",
     "build:blog": "NODE_ENV=production PROJECT_TYPE=blog node build/build.js",
     "build:admin": "NODE_ENV=production PROJECT_TYPE=admin node build/build.js",
-    "build:server": "NODE_ENV=production node build/build.js",
-    "server": "pm2 start ecosystem.config.js",
+    "server": "pm2 start ./server/ecosystem.config.js",
     "precommit": "npm run lint",
     "test": "node build/build.js"
   },
@@ -26,7 +25,6 @@
     "highlight.js": "^9.12.0",
     "less": "^2.7.3",
     "mavon-editor": "^2.5.2",
-    "mongoose": "^4.11.0",
     "shelljs": "^0.7.8",
     "store": "^2.0.12",
     "tar": "^4.3.2",

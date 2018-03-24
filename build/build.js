@@ -53,7 +53,7 @@ rm(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), err => {
     .then(_ => {
         process.stdout.write(stats.toString({
           colors: true,
-          modules: false,
+          modules: true,
           children: false, // if you are using ts-loader, setting this to true will make tyescript errors show up during build
           chunks: false,
           chunkModules: false

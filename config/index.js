@@ -59,8 +59,8 @@ module.exports = {
     /**
      * Source Maps
      */
-
-    productionSourceMap: true,
+    // 开启sourceMap会导致vendor文件巨大，影响首页加载速度
+    productionSourceMap: false,
     // https://webpack.js.org/configuration/devtool/#production
     devtool: "#source-map",
 

@@ -69,6 +69,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     new HtmlWebpackPlugin({
       filename: config.build.index,
       template: "index.html",
+      // 定义模板的标题，同时在index.html 也要写相应表达式
       title: PROJECT_TYPE,
       inject: true,
       minify: {

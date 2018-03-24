@@ -1,5 +1,12 @@
 
 import path from "path";
+
+const host = {
+    development: "localhost",
+    production: "193.112.27.192"
+};
+
+console.log(process.env.NODE_ENV);
 export default {
     // 服务器配置
     db: {
