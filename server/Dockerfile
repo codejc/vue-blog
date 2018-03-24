@@ -10,4 +10,5 @@ RUN cnpm install
 
 EXPOSE 8888
 
-RUN npm run server
+RUN cnpm install
+CMD [ "npm run server" ]
