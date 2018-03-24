@@ -45,23 +45,23 @@ rm(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), err => {
     if (err) throw err
 
     // 将静态资源打包成压缩包文件
-    // tar.c({
-    //     cwd: config.build.assetsRoot,
-    //     gzip: true,
-    //     file: `${config.build.assetsRoot}/${PROJECT_TYPE}-production.tgz`
-    // }, ["index.html", "static"])
-    // .then(_ => {
-    //     process.stdout.write(stats.toString({
-    //       colors: true,
-    //       modules: false,
-    //       children: false, // if you are using ts-loader, setting this to true will make tyescript errors show up during build
-    //       chunks: false,
-    //       chunkModules: false
-    //     }) + "\n\n")
+    tar.c({
+        cwd: config.build.assetsRoot,
+        gzip: true,
+        file: `${config.build.assetsRoot}/${PROJECT_TYPE}-production.tgz`
+    }, ["index.html", "static"])
+    .then(_ => {
+        process.stdout.write(stats.toString({
+          colors: true,
+          modules: false,
+          children: false, // if you are using ts-loader, setting this to true will make tyescript errors show up during build
+          chunks: false,
+          chunkModules: false
+        }) + "\n\n")
 
-    //     console.log(chalk.green(`✔ webpack build success !`));
-    //     console.log(chalk.green(`✔ ${config.build.assetsSubDirectory}/${PROJECT_TYPE}-production.tgz tar&gzip success !\n\n`));
-    // });
+        console.log(chalk.green(`✔ webpack build success !`));
+        console.log(chalk.green(`✔ ${config.build.assetsSubDirectory}/${PROJECT_TYPE}-production.tgz tar&gzip success !\n\n`));
+    });
 
     if (stats.hasErrors()) {
       console.log(chalk.red("  Build failed with errors.\n"))
