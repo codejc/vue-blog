@@ -11,7 +11,7 @@ import { GET_USERINFO } from "@/store/types";
 Vue.use(Router);
 
 const router = new Router({
-    mode: "history",
+    // mode: "history",
     routes: [
         {
             path: "/",

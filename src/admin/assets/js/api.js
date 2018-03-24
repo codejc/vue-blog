@@ -1,4 +1,6 @@
-const host = "http://localhost:8888";
+import config from "./config";
+
+const host = config.api;
 
 export default {
     GET_ARTICLE_LIST: `${host}/admin/getArticleList`,
