@@ -6,7 +6,7 @@ export default {
     db: {
         host: "localhost",
         user: "root",
-        password: "hjincong",
+        password: "123456",
         database: "vue-blog"
     },
     // jwt secrect
