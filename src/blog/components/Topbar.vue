@@ -3,7 +3,7 @@
         <el-menu mode="horizontal" :default-active="$route.path" :router="true">
             <router-link class="brand" to="/" tag="h3">Jc Blog</router-link>
             <el-menu-item index="/">首页</el-menu-item>
-            <!-- <el-menu-item index="/chat">文章分类</el-menu-item> -->
+            <!-- <el-menu-item index="/chat">归档</el-menu-item> -->
             <!-- <el-menu-item index="/chat">在线交流</el-menu-item> -->
             <div class="login" @click="showLogin" v-if="!isLogin">登录</div>
             <el-dropdown trigger="click" v-else>

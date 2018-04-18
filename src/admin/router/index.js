@@ -7,6 +7,9 @@ import Hot from "@/pages/hot";
 import Tag from "@/pages/tag";
 import Link from "@/pages/link";
 import Data from "@/pages/data";
+import User from "@/pages/user";
+import Comment from "@/pages/comment";
+
 import { GET_USERINFO } from "@/store/types";
 Vue.use(Router);
 
@@ -15,7 +18,6 @@ const router = new Router({
     routes: [
         {
             path: "/",
-            name: "article",
             redirect: "/article"
         },
         {
@@ -52,6 +54,16 @@ const router = new Router({
             path: "/data",
             name: "data",
             component: Data
+        },
+        {
+            path: "/user",
+            name: "user",
+            component: User
+        },
+        {
+            path: "/comment",
+            name: "comment",
+            component: Comment
         }
     ]
 });

@@ -22,5 +22,10 @@ export default {
     GET_SEVEN_DAYS: `${host}/admin/getSevenDaysRecords`,
     GET_TAGCHART_DATA: `${host}/admin/getTagChartData`,
     GET_MAIN_DATA: `${host}/admin/getMainData`,
-    GET_VIEWS_RANK: `${host}/admin/getViewsRank`
+    GET_VIEWS_RANK: `${host}/admin/getViewsRank`,
+    GET_STAY_TIME: `${host}/admin/getStayTimeData`,
+    GET_USERS: `${host}/admin/getUsers`,
+    DELETE_USER: `${host}/admin/delUser`,
+    GET_COMMENTS: `${host}/admin/getComments`,
+    DELETE_COMMENT: `${host}/admin/delComment`
 };

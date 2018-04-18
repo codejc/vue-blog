@@ -14,5 +14,6 @@ export default {
     GET_COMMENT_GROUP: `${host}/getCommentGroup`,
     GET_LINKS: `${host}/getLinks`,
     GET_TAGS: `${host}/getTags`,
-    BURY_POINT: `${host}/buryPoint`
+    ADD_RECORD: `${host}/addRecod`,
+    ADD_VIEW: `${host}/addView`
 };

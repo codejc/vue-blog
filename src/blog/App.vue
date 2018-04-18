@@ -29,6 +29,11 @@ export default {
         HotCard,
         LinkCard
     },
+    data() {
+        return {
+            enterTime: Date.now()
+        };
+    },
     computed: mapState({
         userInfo: state => state.user.userInfo
     }),
@@ -45,16 +50,24 @@ export default {
         async getUserInfo() {
             await this.$store.dispatch(GET_USERINFO);
         },
-        // 数据埋点，提交访问记录
-        buryPoint() {
+        // 用户离开页面时，提交访问记录
+        addRecord() {
             const me = this;
             const { userName, loginId } = me.userInfo;
-            me.axios.post(me.$api.BURY_POINT, { userName, loginId });
+            const duration = Date.now() - me.enterTime;
+            me.axios.post(me.$api.ADD_RECORD, { userName, loginId, duration });
+        },
+        handleUserLeave() {
+            const me = this;
+            // 当用户关闭网页或者刷新时，提交访问记录
+            window.onbeforeunload = () => {
+                me.addRecord();
+            };
         }
     },
     async created() {
         await this.getUserInfo();
-        this.buryPoint();
+        this.handleUserLeave();
     },
     mounted() {
         const me = this;

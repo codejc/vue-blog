@@ -3,7 +3,7 @@ import query from "../db";
 export default {
 
     // 获取所有文章及相关信息
-    getList: ({ tag, offset, pageSize, keyword }) => {
+    getList({ tag, offset, pageSize, keyword }) {
         const sql = `
             select a.*,count(c.id) as comments
             from article a
@@ -16,7 +16,7 @@ export default {
     },
 
     // 根据id获取文章
-    getArticle: (id) => {
+    getArticle(id) {
         const sql = `
             select a.*,count(c.id) as comments
             from article a
@@ -27,7 +27,7 @@ export default {
     },
 
     // 根据id获取点赞数
-    getLikeById: (id) => {
+    getLikeById(id) {
         const sql = `
             select a.likes
             from article a
@@ -37,13 +37,13 @@ export default {
     },
 
     // 删除文章
-    delArticle: (id) => {
+    delArticle(id) {
         const sql = `delete from article where id = ${id}`;
         return query(sql);
     },
 
     // 编辑文章
-    updateArticle: ({ id, title, content, tag, author, updateTime }) => {
+    updateArticle({ id, title, content, tag, author, updateTime }) {
         const sql = `
             update article 
             set title = '${title}', content = '${content}', tag = '${tag}',
@@ -52,8 +52,16 @@ export default {
         return query(sql);
     },
 
+    // 添加文章
+    addArticle({ title, content, tag, author, publish }) {
+        const sql = `
+            insert into article (title, content, author, createTime, updateTime, tag, publish)
+            values ('${title}', '${content}', '${author}', now(), now(), '${tag}', '${publish}')`;
+
+        return query(sql);
+    },
     // 根据id更新访问数
-    updateViewsById: (id, val) => {
+    updateViewsById(id, val) {
         const sql = `
             update article set views = ${val} where id = ${id}`;
 
@@ -61,7 +69,7 @@ export default {
     },
 
     // 更改发布状态
-    updateStatus: ({ id, publish }) => {
+    updateStatus({ id, publish }) {
         const sql = `
             update article 
             set publish = '${publish}'

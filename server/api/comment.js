@@ -1,14 +1,12 @@
-import express from "express";
-import {
-    comment,
-    getCommentGroup,
-    getUserInfo
-} from "../controllers/user";
+export const post = {
+    "postTest": () => {
+        console.log("post userinfo");
+    }
+};
 
-const router = express.Router();
+export const get = {
+    "getTest": () => {
+        console.log("get userinfo");
+    }
+};
 
-router.post("/blog/comment", comment)
-.post("/blog/getCommentGroup", getCommentGroup)
-.post("/blog/getUserInfo", getUserInfo);
-
-export default router;

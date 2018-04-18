@@ -2,15 +2,17 @@ import exp from "express";
 import bodyParser from "body-parser";
 import colors from "colors";
 import db from "./db";
-import api from "./controllers";
+import setRouter from "./controllers";
 import mysql from "mysql";
 import config from "./config";
 import jwt from "jsonwebtoken"; // 使用jwt签名
 import { error, success } from "./util/toJson";
 import path from "path";
 const app = exp();
+const router = exp.Router();
 const PORT = "8888";
 
+setRouter(router);
 // 设置静态资源目录
 app.use(exp.static(path.join(__dirname, "assets")));
 
@@ -32,28 +34,14 @@ app.set("jwtSecret", config.jwtSecret);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-
-// 匹配除了登录页和注册页外的路由，进行路由拦截，token鉴权。
-// app.all(/^back\/.*?(?<!login)(?<!register)$/, (req, res, next) => {
-//     const token = req.headers["x-token"];
-//     if (token) {
-//         jwt.verify(token, app.get("jwtSecret"), (err, decoded) => {
-//             if (err) return res.json(error("用户未登录", "1008"));
-//             next();
-//         });
-//     } else {
-//         return res.json(error("无效token", "1008"));
-//     }
-// });
 // 调用api
-app.use(api);
+// app.use(api);
 
 const processErrorHandler = (e) => {
     console.log(e);
 };
 process.on("unhandledRejection", processErrorHandler);
 const server = app.listen(PORT, (req, res) => {
-    console.clear();
     console.log(`sever run at localhost:${PORT}`.green);
 });
 // var io = require("socket.io")(server);

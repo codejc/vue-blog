@@ -5,6 +5,9 @@
             <div class="layout-header">
                 <el-input placeholder="请输入关键词" v-model="keyword"></el-input>
                 <el-button type="primary" @click="getArticles">搜索</el-button>
+                <div class="btn-group">
+                    <el-button type="primary" @click="addArticle">新增</el-button>
+                </div>
             </div>
             <div class="layout-main">
                 <el-table :data="articles" :height="tableHeight">
@@ -80,8 +83,8 @@ export default {
             };
             const res = await me.axios.post(me.$api.GET_ARTICLE_LIST, params);
             if (!res.success) return;
-            me.articles = res.data.articles;
-            me.total = res.data.total;
+            me.articles = res.data;
+            me.total = res.total;
         },
 
         handleCurrentChange(no) {
@@ -112,6 +115,10 @@ export default {
             const res = await me.axios.post(me.$api.PUBLISH_ARTICLE, { id, publish });
             if (!res.success) return me.$message.error(`${cnStatus}失败`);
             me.$message.success(`${cnStatus}成功`);
+        },
+
+        addArticle() {
+            this.$router.push({ name: "articleDetail", params: { id: 0 } });
         }
     }
 };

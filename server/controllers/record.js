@@ -1,20 +1,25 @@
 
-import Record from "../models/record";
-import Comment from "../models/comment";
-import Tag from "../models/tag";
-import View from "../models/view";
-import Like from "../models/like";
 import express from "express";
+import { Record, Comment, Tag, View, Like, User } from "../models";
 import { getPastDays, dateFormat } from "../util/date";
-import { Recorded } from "rx";
 
 const router = express.Router();
 
-// 数据埋点，添加访问记录
-router.post("/buryPoint", async (req, res) => {
+// 添加网站访问记录
+router.post("/addRecod", async (req, res) => {
     try {
         const data = await Record.addRecord(req.body);
         res.json({ code: "1000", message: "处理成功", data, success: true });
+    } catch (e) {
+        console.log(e);
+        res.json({ code: "1001", message: "数据库查询失败", success: false });
+    }
+})
+// 添加文章浏览记录
+.post("/addView", async (req, res) => {
+    try {
+        await View.AddViewsById(req.body);
+        res.json({ code: "1000", message: "处理成功", success: true });
     } catch (e) {
         console.log(e);
         res.json({ code: "1001", message: "数据库查询失败", success: false });
@@ -64,7 +69,9 @@ router.post("/buryPoint", async (req, res) => {
     try {
         const total = (await Record.getTotal())[0].total;
         const today = (await Record.getRecordByDate(getPastDays(0))).length;
-        res.json({ code: "1000", message: "处理成功", data: { total, today }, success: true });
+        const users = (await User.getUserLength())[0].length;
+
+        res.json({ code: "1000", message: "处理成功", data: { total, today, users }, success: true });
     } catch (e) {
         console.log(e);
         res.json({ code: "1001", message: "数据库查询失败", success: false });
@@ -82,12 +89,11 @@ router.post("/buryPoint", async (req, res) => {
                 break;
             case "周":
                 // 获取今天开始倒数七天的数据，遍历每天的数据，push到views里
-                const dateGroup = getPastDays(7);
-                for (let i = 0; i < dateGroup.length; i++) {
-                    const oneDayData = await View.getViewsByDate(dateGroup[i]);
-                    // concat 此处使用无效，等待验证
-                    oneDayData.forEach(item => views.push(item));
-                }
+                const dateGroup = getPastDays();
+                // 遍历执行所有异步请求，获取结果数组
+                const dayData = await Promise.all(dateGroup.map(item => View.getViewsByDate(item)));
+                // 快速累加获取的每天日期的结果数组
+                views = dayData.reduce((init, child) => init.concat(child), []);
                 break;
             case "月":
                 // 获取当前月份字符串类似 2018-03，当参数传入，查找当前月的所有数据
@@ -124,6 +130,23 @@ router.post("/buryPoint", async (req, res) => {
         data.sort((a, b) => b.views - a.views);
         // 只截取排行前十
         res.json({ code: "1000", message: "处理成功", data: data.slice(0, 10), success: true });
+    } catch (e) {
+        console.log(e);
+        res.json({ code: "1001", message: "数据库查询失败", success: false });
+    }
+})
+.post("/admin/getStayTimeData", async (req, res) => {
+    try {
+        const dateGroup = getPastDays();
+        const data = {};
+
+        for (let i = 0; i < dateGroup.length; i++) {
+            const records = await Record.getRecordByDate(dateGroup[i]);
+            // 累加每条数据里的停留时间,转成分钟
+            data[dateGroup[i]] = ((records.reduce((a, b) => a + b.duration, 0) / (records.length * 60000)) || 0).toFixed(2);
+        }
+
+        res.json({ code: "1000", message: "处理成功", data, success: true });
     } catch (e) {
         console.log(e);
         res.json({ code: "1001", message: "数据库查询失败", success: false });

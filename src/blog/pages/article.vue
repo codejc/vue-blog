@@ -19,7 +19,7 @@
         <div class="comment">
             <h3><i class="fa fa-commenting" aria-hidden="true"></i> {{article.commentList.length}}条评论</h3>
             <ul class="comment-list">
-                <p v-if="!article.commentList">暂无评论</p>
+                <p v-if="!article.comments">暂无评论</p>
                 <li v-for="(item, index) in article.commentList" :key="index">
                     <header>
                         <div class="favicon"></div>
@@ -120,18 +120,24 @@ export default {
             commentGroup: [],
             replyItem: null,
             replyContent: "",
-            conversationId: null
+            conversationId: null,
+            enterTime: null
         };
     },
     created() {
         this.aid = this.$route.query.id;
         this.getArticle();
+        this.enterTime = Date.now();
     },
     computed: mapState({
         userInfo: state => state.user.userInfo,
         isLogin: state => state.user.isLogin
     }),
+    destroyed() {
+        this.addViewRecord();
+    },
     methods: {
+        // 点赞
         async doLike() {
             const me = this;
             const res = await me.axios.post(me.$api.DO_LIKE, { id: me.$route.query.id });
@@ -162,6 +168,7 @@ export default {
             me.dialogVisible = true;
             me.replyItem = item;
         },
+        // 提交回复
         async submitReploy() {
             const me = this;
             if (!me.isLogin) return me.showLogin();
@@ -169,6 +176,7 @@ export default {
                 ...me.userInfo,
                 ...me.replyItem,
                 articleId: +me.$route.query.id,
+                articleName: me.article.title,
                 content: me.replyContent
             };
             const res = await me.axios.post(me.$api.POST_COMMENT, params);
@@ -178,12 +186,14 @@ export default {
             me.dialogVisible = false;
             me.handleDialogClose();
         },
+        // 提交评论
         async submitComment() {
             const me = this;
             if (!me.isLogin) return me.showLogin();
             const params = {
                 ...me.userInfo,
                 articleId: +me.$route.query.id,
+                articleName: me.article.title,
                 content: me.comment
             };
             const res = await me.axios.post(me.$api.POST_COMMENT, params);
@@ -192,12 +202,20 @@ export default {
             me.comment = "";
             me.$message.success("评论成功");
         },
+        // 获取对话
         async getCommentGroup(root) {
             const me = this;
             const res = await me.axios.post(me.$api.GET_COMMENT_GROUP, { root });
             if (!res.success) return me.$message.error("查看对话失败");
             me.commentGroup = res.data;
             me.conversationVisable = true;
+        },
+        // 添加浏览记录
+        addViewRecord() {
+            const me = this;
+            me.article.duration = Date.now() - me.enterTime;
+            delete me.article.content;
+            me.axios.post(me.$api.ADD_VIEW, me.article);
         }
     }
 };
@@ -214,9 +232,6 @@ export default {
             max-width: 100%;
         }
         
-        .content li {
-            margin-left: 35px;
-        }
         .main {
             width: 100%;
             background-color: white;
@@ -236,6 +251,48 @@ export default {
 
         .content {
             padding: 20px;
+            blockquote {
+                margin: 10px 0;
+                padding: 0 0 0 10px;
+                font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  	            -webkit-font-smoothing: antialiased;
+  	            -moz-osx-font-smoothing: grayscale;
+            }
+            li {
+                margin-left: 35px;
+            }
+            code {
+                border-radius: 4px;
+                padding: 20px;
+                font-size: 12px;
+                margin: 10px 0;
+            }
+            h1 {
+                font-size: 32px;
+            }
+            h2 {
+                font-size: 18px;
+            }
+            h6 {
+                font-size: 14px;
+                color: #6a737d;
+            }
+            h1,
+            h2 {
+                padding: 10px 0;
+                border-bottom: 1px solid #eaecef;
+            }
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6 {
+                margin: 10px 0;
+            }
+            p {
+                margin: 10px 0;
+            }
         }
 
         .comment {

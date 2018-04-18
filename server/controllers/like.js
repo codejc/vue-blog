@@ -1,5 +1,5 @@
 import express from "express";
-import Like from "../models/like";
+import { Like } from "../models";
 
 const router = express.Router();
 // 根据id点赞文章

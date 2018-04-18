@@ -12,7 +12,9 @@ router.post("/admin/uploadImage", (req, res) => {
     // 过滤data:URL
     const base64Data = imgData.replace(/^data:image\/\w+;base64,/, "");
     const dataBuffer = new Buffer(base64Data, "base64");
+    // 生成文件唯一id
     const uniqueId = `${uuid.v1()}.${type}`;
+    // 拼接图片url
     const data = {
         url: `${config.host}/${uniqueId}`
     };
@@ -35,4 +37,5 @@ router.post("/admin/uploadImage", (req, res) => {
         });
     });
 });
+
 export default router;

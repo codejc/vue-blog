@@ -21,6 +21,9 @@
                     <el-input placeholder="请输入昵称" v-model="form.userName"></el-input>
                 </el-form-item>
                 <el-form-item>
+                    <el-input placeholder="请输入邮箱" v-model="form.email"></el-input>
+                </el-form-item>
+                <el-form-item>
                     <el-input placeholder="请输入账号" v-model="form.loginId"></el-input>
                 </el-form-item>
                 <el-form-item>
@@ -66,12 +69,12 @@ export default {
             const me = this;
             me.loading = true;
             const res = await me.axios.post(me.$api.LOGIN, me.form);
-            const { loginId, userName, token } = res.data;
+            const data = res.data;
             me.loading = false;
             if (!res.success) return me.$message.error(res.message);
             me.$message.success("登录成功");
-            storage.setStorage("token", token);
-            me.$store.commit(SET_USERINFO, { loginId, userName });
+            storage.setStorage("token", data.token);
+            me.$store.commit(SET_USERINFO, { loginId: data.loginId, userName: data.userName });
             me.$store.commit(LOGIN_SUCCESS);
             me.$router.push({ path: "/" });
         },

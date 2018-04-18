@@ -1,5 +1,5 @@
 
-import Link from "../models/link";
+import { Link } from "../models";
 import express from "express";
 
 const router = express.Router();

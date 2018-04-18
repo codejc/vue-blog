@@ -41,10 +41,13 @@ export default {
     },
     data() {
         return {
-            article: {},
+            article: {
+                content: ""
+            },
             tagValue: null,
             tags: [],
-            isEdit: false
+            isEdit: false,
+            articleId: +this.$route.params.id
         };
     },
     created() {
@@ -54,7 +57,8 @@ export default {
     methods: {
         async getArticle() {
             const me = this;
-            const res = await me.axios.post(me.$api.GET_ARTICLE, { id: me.$route.params.id });
+            if (me.articleId === 0) return;
+            const res = await me.axios.post(me.$api.GET_ARTICLE, { id: me.articleId });
             me.article = res.data;
         },
         goBack() {
@@ -67,8 +71,13 @@ export default {
         },
         async save() {
             const me = this;
-            const res = await me.axios.post(me.$api.UPDATE_ARTICLE, me.article);
             me.article.updateTime = new Date();
+            // 如果传入的文章id为0，则是新增页面，不传id给后台
+            if (me.articleId === 0) {
+                delete me.article.id;
+                me.article.publish = 0;
+            }
+            const res = await me.axios.post(me.$api.UPDATE_ARTICLE, me.article);
             if (res.success) {
                 me.$message.success("保存成功");
                 me.goBack();

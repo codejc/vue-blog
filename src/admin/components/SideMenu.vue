@@ -42,6 +42,14 @@
                 <i class="fa fa-pie-chart" aria-hidden="true"></i>
                 <span slot="title">数据中心</span>
             </el-menu-item>
+            <el-menu-item index="/user">
+                <i class="fa fa-user" aria-hidden="true"></i>
+                <span slot="title">用户管理</span>
+            </el-menu-item>
+            <el-menu-item index="/comment">
+                <i class="fa fa-commenting" aria-hidden="true"></i>
+                <span slot="title">评论管理</span>
+            </el-menu-item>
         <div class="logout" v-if="!isCollapse">
             <span class="btn-logout" @click="logout">
                 <i class="fa fa-sign-out" aria-hidden="true"></i>退出登录
@@ -64,7 +72,7 @@ export default {
     computed: mapState({
         userInfo: state => state.user.userInfo,
         activeIndex() {
-            return this.$route.name;
+            return `/${this.$route.name}`;
         }
     }),
     methods: {
