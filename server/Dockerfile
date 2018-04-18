@@ -11,4 +11,5 @@ RUN cnpm install
 EXPOSE 8888
 
 RUN cnpm install
-CMD [ "pm2 start ecosystem.config.js" ]
+RUN npm run server
+# CMD [ "pm2 start ecosystem.config.js" ]
