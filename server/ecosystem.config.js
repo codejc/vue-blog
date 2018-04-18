@@ -9,7 +9,7 @@ module.exports = {
     // First application
         {
             name: "server",
-            script: "./server/app.js",
+            script: "app.js",
             node_args: ["--harmony", "--inspect"], // 开启node 在chrome下的调试
             watch: ["./controllers", "./models", "./util", "./app.js", "./config.js", "./db", "./middlewares"],
             // 改变pm2执行环境，使用babel-node执行，兼容es6
