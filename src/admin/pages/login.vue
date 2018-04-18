@@ -25,6 +25,6 @@ export default {
     top: 0;
     right: 0;
     bottom: 0;
-    background-image:url(https://static.zhihu.com/heifetz/bg.8ca8122d44fc9a0f7b04.png);
+    background-image:url("https://static.zhihu.com/heifetz/sign_bg.db29b0fbd2f78dd8c1b7.png");
 }
 </style>
