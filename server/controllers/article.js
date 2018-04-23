@@ -4,7 +4,7 @@ import { error, success } from "../util/toJson";
 
 import marked from "marked";
 
-const articleController = (router) => {
+export default (router) => {
     // 获取文章列表
     router.post("/getArticleList", async (req, res) => {
         // 分页
@@ -120,9 +120,4 @@ const articleController = (router) => {
             res.json({ code: "1001", message: "数据库查询失败", success: false });
         }
     });
-
-    return router;
 };
-
-
-export default articleController;

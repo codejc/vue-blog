@@ -102,6 +102,8 @@ export default {
     width: 300px;
     margin: 140px auto;
     padding: 20px;
+    box-shadow: 0 0 1px lightgrey;
+    
     .btn-login {
         width: 100%;
     }

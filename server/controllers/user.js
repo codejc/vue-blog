@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import config from "../config";
 import verify from "../middlewares/verify";
 
-const userController = (router) => {
+export default (router) => {
     // 注册
     router.post("/register", async (req, res) => {
         // 分页
@@ -80,6 +80,4 @@ const userController = (router) => {
         }
     });
 };
-
-export default userController;
 

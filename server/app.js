@@ -12,7 +12,6 @@ const app = exp();
 const router = exp.Router();
 const PORT = "8888";
 
-setRouter(router);
 // 设置静态资源目录
 app.use(exp.static(path.join(__dirname, "assets")));
 
@@ -36,6 +35,7 @@ app.use(bodyParser.json());
 
 // 调用api
 // app.use(api);
+app.use(setRouter(router));
 
 const processErrorHandler = (e) => {
     console.log(e);

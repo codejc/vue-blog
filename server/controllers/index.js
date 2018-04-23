@@ -1,17 +1,15 @@
-// import express from "express";
 import fs from "fs";
-
-// const router = express.Router();
 const url = __dirname;
-import article from "./article";
-import user from "./user";
-console.log(user);
+
 export default (router) => {
-    console.log(router.use(user(router)));
-    // fs.readdirSync(url).forEach(file => {
-    //     const dirName = file.split(".")[0];
-    //     const controller = require(`${url}/${dirName}`);
-    //     // app.use(controller(router));
-    // });
-    // router.use(user(router));
+    // 遍历controller目录下所有文件
+    fs.readdirSync(url).forEach(file => {
+        const dirName = file.split(".")[0];
+        // 将本文件除外
+        if (dirName === "index") return;
+        const controller = require(`${url}/${dirName}`).default;
+        // 传递router实例
+        controller(router);
+    });
+    return router;
 };
