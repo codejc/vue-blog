@@ -1,12 +1,11 @@
 
-import { Record, Comment, Tag, View, Like, User } from "../models";
 import { getPastDays, dateFormat } from "../util/date";
 
 export default (router) => {
     // 添加网站访问记录
     router.post("/addRecod", async (req, res) => {
         try {
-            const data = await Record.addRecord(req.body);
+            const data = await req.models.record.addRecord(req.body);
             res.json({ code: "1000", message: "处理成功", data, success: true });
         } catch (e) {
             console.log(e);
@@ -16,7 +15,7 @@ export default (router) => {
     // 添加文章浏览记录
     .post("/addView", async (req, res) => {
         try {
-            await View.AddViewsById(req.body);
+            await req.models.view.AddViewsById(req.body);
             res.json({ code: "1000", message: "处理成功", success: true });
         } catch (e) {
             console.log(e);
@@ -34,9 +33,9 @@ export default (router) => {
             };
 
             for (let i = 0; i < dateGroup.length; i++) {
-                data.viewsData[dateGroup[i]] = (await Record.getRecordByDate(dateGroup[i])).length;
-                data.commentData[dateGroup[i]] = (await Comment.getCommentsByDate(dateGroup[i])).length;
-                data.likeData[dateGroup[i]] = (await Like.getLikesByDate(dateGroup[i])).length;
+                data.viewsData[dateGroup[i]] = (await req.models.record.getRecordByDate(dateGroup[i])).length;
+                data.commentData[dateGroup[i]] = (await req.models.comment.getCommentsByDate(dateGroup[i])).length;
+                data.likeData[dateGroup[i]] = (await req.models.like.getLikesByDate(dateGroup[i])).length;
             }
             res.json({ code: "1000", message: "处理成功", data, success: true });
         } catch (e) {
@@ -47,12 +46,12 @@ export default (router) => {
     // 获取文章访问分布数据
     .post("/admin/getTagChartData", async (req, res) => {
         try {
-            const tags = await Tag.getTags();
+            const tags = await req.models.tag.getTags();
             const data = [];
             let total = 0;
             for (let i = 0; i < tags.length; i++) {
                 const name = tags[i].label;
-                const value = (await View.getViewsByTag(name)).length;
+                const value = (await req.models.view.getViewsByTag(name)).length;
                 total += value;
                 data.push({ name, value });
             }
@@ -65,9 +64,9 @@ export default (router) => {
     // 获取主要数据，访问量，注册用户数等
     .post("/admin/getMainData", async (req, res) => {
         try {
-            const total = (await Record.getTotal())[0].total;
-            const today = (await Record.getRecordByDate(getPastDays(0))).length;
-            const users = (await User.getUserLength())[0].length;
+            const total = (await req.models.record.getTotal())[0].total;
+            const today = (await req.models.record.getRecordByDate(getPastDays(0))).length;
+            const users = (await req.models.user.getUserLength())[0].length;
 
             res.json({ code: "1000", message: "处理成功", data: { total, today, users }, success: true });
         } catch (e) {
@@ -83,23 +82,23 @@ export default (router) => {
             // 接收前端的参数，以日、周、月、总 四个维度取相应日期的数据
             switch (rankType) {
                 case "日":
-                    views = (await View.getViewsByDate(getPastDays(0)));
+                    views = (await req.models.view.getViewsByDate(getPastDays(0)));
                     break;
                 case "周":
                     // 获取今天开始倒数七天的数据，遍历每天的数据，push到views里
                     const dateGroup = getPastDays();
                     // 遍历执行所有异步请求，获取结果数组
-                    const dayData = await Promise.all(dateGroup.map(item => View.getViewsByDate(item)));
+                    const dayData = await Promise.all(dateGroup.map(item => req.models.view.getViewsByDate(item)));
                     // 快速累加获取的每天日期的结果数组
                     views = dayData.reduce((init, child) => init.concat(child), []);
                     break;
                 case "月":
                     // 获取当前月份字符串类似 2018-03，当参数传入，查找当前月的所有数据
-                    views = await View.getViewsByDate(dateFormat(Date.now(), "yyyy-MM"));
+                    views = await req.models.view.getViewsByDate(dateFormat(Date.now(), "yyyy-MM"));
                     break;
                 case "总":
                     // 传入空字符串，获取所有数据
-                    views = await View.getViewsByDate("");
+                    views = await req.models.view.getViewsByDate("");
                     break;
                 default:
                     break;
@@ -139,7 +138,7 @@ export default (router) => {
             const data = {};
 
             for (let i = 0; i < dateGroup.length; i++) {
-                const records = await Record.getRecordByDate(dateGroup[i]);
+                const records = await req.models.record.getRecordByDate(dateGroup[i]);
                 // 累加每条数据里的停留时间,转成分钟
                 data[dateGroup[i]] = ((records.reduce((a, b) => a + b.duration, 0) / (records.length * 60000)) || 0).toFixed(2);
             }

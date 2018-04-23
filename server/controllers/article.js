@@ -1,7 +1,5 @@
 
-import { Article, Comment, View, Like } from "../models";
 import { error, success } from "../util/toJson";
-
 import marked from "marked";
 
 export default (router) => {
@@ -12,11 +10,11 @@ export default (router) => {
         const offset = (pageNo - 1) * 10;
         const newArr = [];
         try {
-            let data = await Article.getList({ offset, pageSize, tag, keyword });
+            let data = await req.models.article.getList({ offset, pageSize, tag, keyword });
             for (let i = 0; i < data.length; i++) {
                 // 获取文章点赞数, 浏览数
-                data[i].likes = (await Like.getLikesById(data[i].id)).length;
-                data[i].views = (await View.getViewsById(data[i].id)).length;
+                data[i].likes = (await req.models.like.getLikesById(data[i].id)).length;
+                data[i].views = (await req.models.view.getViewsById(data[i].id)).length;
 
                 // blog端只接受发布了的文章
                 if (!data[i].publish) continue;
@@ -39,12 +37,12 @@ export default (router) => {
     .post("/getArticleById", async (req, res) => {
         const id = req.body.id;
         try {
-            const article = (await Article.getArticle(id))[0];
-            const commentList = await Comment.getCommentsById(id);
-            const likes = (await Like.getLikesById(id)).length;
-            const views = (await View.getViewsById(id)).length;
+            const article = (await req.models.article.getArticle(id))[0];
+            const commentList = await req.models.comment.getCommentsById(id);
+            const likes = (await req.models.like.getLikesById(id)).length;
+            const views = (await req.models.view.getViewsById(id)).length;
             article.content = marked(article.content);
-    
+
             const data = { ...article, commentList, likes, views };
             res.json({ code: "1000", message: "处理成功", data, success: true });
         } catch (e) {
@@ -54,17 +52,18 @@ export default (router) => {
     })
     // admin 获取文章列表
     .post("/admin/getArticleList", async (req, res) => {
+        // console.log(req);
         // 分页
         const { pageSize = 10, tag, keyword, pageNo } = req.body;
         const offset = (pageNo - 1) * pageSize;
         try {
-            const data = (await Article.getList({ offset, pageSize, tag, keyword })).reverse();
+            const data = (await req.models.article.getList({ offset, pageSize, tag, keyword })).reverse();
             const total = data.length;
             for (let i = 0; i < data.length; i++) {
                 // 获取文章点赞数
-                data[i].likes = (await Like.getLikesById(data[i].id)).length;
-                data[i].views = (await View.getViewsById(data[i].id)).length;
-    
+                data[i].likes = (await req.models.like.getLikesById(data[i].id)).length;
+                data[i].views = (await req.models.view.getViewsById(data[i].id)).length;
+
                 delete data[i].content;
             }
             res.json({ code: "1000", message: "处理成功", data, total, success: true });
@@ -77,11 +76,11 @@ export default (router) => {
     .post("/admin/getArticleById", async (req, res) => {
         const { id } = req.body;
         try {
-            const article = (await Article.getArticle(id))[0];
-            const commentList = await Comment.getCommentsById(id);
-            const likes = (await Like.getLikesById(id)).length;
-            const views = (await View.getViewsById(id)).length;
-    
+            const article = (await req.models.article.getArticle(id))[0];
+            const commentList = await req.models.comment.getCommentsById(id);
+            const likes = (await req.models.like.getLikesById(id)).length;
+            const views = (await req.models.view.getViewsById(id)).length;
+
             const data = { ...article, commentList, likes, views };
             res.json({ code: "1000", message: "处理成功", data, success: true });
         } catch (e) {
@@ -91,7 +90,7 @@ export default (router) => {
     .post("/admin/delArticle", async (req, res) => {
         const id = req.body.id;
         try {
-            await Article.delArticle(id);
+            await req.models.article.delArticle(id);
             res.json({ code: "1000", message: "处理成功", success: true });
         } catch (e) {
             console.log(e);
@@ -101,9 +100,9 @@ export default (router) => {
     .post("/admin/updateArticle", async (req, res) => {
         try {
             if (!req.body.id) {
-                await Article.addArticle(req.body);
+                await req.models.article.addArticle(req.body);
             } else {
-                await Article.updateArticle(req.body);
+                await req.models.article.updateArticle(req.body);
             }
             res.json({ code: "1000", message: "处理成功", success: true });
         } catch (e) {
@@ -113,7 +112,7 @@ export default (router) => {
     })
     .post("/admin/publishArticle", async (req, res) => {
         try {
-            await Article.updateStatus(req.body);
+            await req.models.article.updateStatus(req.body);
             res.json({ code: "1000", message: "处理成功", success: true });
         } catch (e) {
             console.log(e);

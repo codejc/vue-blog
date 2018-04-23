@@ -1,4 +1,3 @@
-import { User } from "../models";
 import { error, success } from "../util/toJson";
 import jwt from "jsonwebtoken";
 import config from "../config";
@@ -11,10 +10,10 @@ export default (router) => {
         const { loginId, userName, password } = req.body;
 
         try {
-            const id = await User.getUserByLoginId(loginId);
-            const name = await User.getUserByUserName(userName);
+            const id = await req.models.user.getUserByLoginId(loginId);
+            const name = await req.models.user.getUserByUserName(userName);
             if (!id.length && !name.length) {
-                await User.addUser({ loginId, userName, password });
+                await req.models.user.addUser({ loginId, userName, password });
                 res.json(success("注册成功"));
             } else if (name.length) {
                 res.json(error("该昵称已存在"));
@@ -30,7 +29,7 @@ export default (router) => {
         const { loginId, password } = req.body;
 
         try {
-            const data = await User.getUserByLoginId(loginId);
+            const data = await req.models.user.getUserByLoginId(loginId);
             if (!data.length) {
                 res.json(error("该账号不存在"));
             } else if (data[0].password !== password) {
@@ -63,7 +62,7 @@ export default (router) => {
     })
     .post("/admin/getUsers", async (req, res) => {
         try {
-            const data = await User.getUsers();
+            const data = await req.models.user.getUsers();
             res.json(success(data));
         } catch (e) {
             console.log(e);
@@ -72,7 +71,7 @@ export default (router) => {
     })
     .post("/admin/delUser", async (req, res) => {
         try {
-            await User.delUser(req.body.id);
+            await req.models.user.delUser(req.body.id);
             res.json(success());
         } catch (e) {
             console.log(e);

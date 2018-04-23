@@ -3,11 +3,13 @@ import bodyParser from "body-parser";
 import colors from "colors";
 import db from "./db";
 import setRouter from "./controllers";
+import models from "./models";
 import mysql from "mysql";
 import config from "./config";
 import jwt from "jsonwebtoken"; // 使用jwt签名
 import { error, success } from "./util/toJson";
 import path from "path";
+
 const app = exp();
 const router = exp.Router();
 const PORT = "8888";
@@ -33,10 +35,13 @@ app.set("jwtSecret", config.jwtSecret);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+app.use("*", (req, res, next) => {
+    req.models = models;
+    next();
+});
 // 调用api
 // app.use(api);
 app.use(setRouter(router));
-
 const processErrorHandler = (e) => {
     console.log(e);
 };

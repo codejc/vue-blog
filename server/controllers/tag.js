@@ -5,7 +5,7 @@ export default (router) => {
     // 获取tag列表
     router.post("/getTags", async (req, res) => {
         try {
-            const data = await Tag.getTags();
+            const data = await req.models.tag.getTags();
             res.json({ code: "1000", message: "处理成功", data, success: true });
         } catch (e) {
             console.log(e);
@@ -15,7 +15,7 @@ export default (router) => {
     // 获取tag列表
     .post("/admin/getTags", async (req, res) => {
         try {
-            const data = await Tag.getTags(req.body.keyword);
+            const data = await req.models.tag.getTags(req.body.keyword);
             res.json({ code: "1000", message: "处理成功", data, success: true });
         } catch (e) {
             console.log(e);
@@ -24,7 +24,7 @@ export default (router) => {
     })
     .post("/admin/createTag", async (req, res) => {
         try {
-            const data = await Tag.addTag(req.body.value);
+            const data = await req.models.tag.addTag(req.body.value);
             res.json({ code: "1000", message: "处理成功", data, success: true });
         } catch (e) {
             console.log(e);
@@ -33,7 +33,7 @@ export default (router) => {
     })
     .post("/admin/delTag", async (req, res) => {
         try {
-            const data = await Tag.delTag(req.body.id);
+            const data = await req.models.tag.delTag(req.body.id);
             res.json({ code: "1000", message: "处理成功", data, success: true });
         } catch (e) {
             console.log(e);
